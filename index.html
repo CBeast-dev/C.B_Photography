@@ -17,7 +17,7 @@
         <div class="terminal-titlebar">
           <span>[ ACCESS_GATE.EXE ]</span>
           <div class="win95-buttons">
-            <button>_</button><button>&#9633;</button><button>&#x2715;</button>
+            <button>_</button><button>&#9633;</button><button type="button" onclick="closeStartupTab()">&#x2715;</button>
           </div>
         </div>
         <div class="click-screen-body">
@@ -45,7 +45,7 @@
         <div class="terminal-titlebar">
           <span>[ TERMINAL.EXE ]</span>
           <div class="win95-buttons">
-            <button>_</button><button>&#9633;</button><button>&#x2715;</button>
+            <button>_</button><button>&#9633;</button><button type="button" onclick="closeStartupTab()">&#x2715;</button>
           </div>
         </div>
         <div class="terminal-body">
@@ -182,6 +182,17 @@
   </div>
 
   <script>
+    function closeStartupTab() {
+      window.open('', '_self');
+      window.close();
+
+      setTimeout(function() {
+        if (!window.closed) {
+          window.location.href = 'about:blank';
+        }
+      }, 50);
+    }
+
     function sendMail(e) {
       e.preventDefault();
       var from = document.getElementById('mail-from').value;
