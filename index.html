@@ -231,9 +231,10 @@
 
         oscillator.type = type || 'square';
         oscillator.frequency.setValueAtTime(frequency, now);
-        filter.type = 'bandpass';
-        filter.frequency.setValueAtTime(Math.max(500, frequency), now);
-        filter.Q.value = 2.5;
+  oscillator.frequency.exponentialRampToValueAtTime(Math.max(120, frequency * 0.9), now + durationMs / 1000);
+  filter.type = oscillator.type === 'triangle' ? 'bandpass' : 'lowpass';
+  filter.frequency.setValueAtTime(Math.max(700, frequency * 1.6), now);
+  filter.Q.value = oscillator.type === 'triangle' ? 2.2 : 1.4;
 
         gain.gain.setValueAtTime(0.0001, now);
         gain.gain.linearRampToValueAtTime(volume, now + 0.008);
@@ -253,14 +254,14 @@
         if (nowMs - lastTypeTickAt < 34) return;
         lastTypeTickAt = nowMs;
 
-        var base = character === '[' || character === ']' ? 1180 : 940;
-        var offset = (charIndex % 4) * 45;
-        playBootTone(base + offset, 42, 0.018, 'square');
+        var base = /[\[\]0-9]/.test(character) ? 820 : 690;
+        var offset = (charIndex % 3) * 32;
+        playBootTone(base + offset, 34, 0.016, 'square');
       }
 
       function playLineCompleteTone(index) {
         if (!audioContext) return;
-        playBootTone(520 + index * 18, 110, 0.022, 'sine');
+        playBootTone(420 + index * 14, 135, 0.018, 'triangle');
       }
 
       ['pointerdown', 'keydown', 'touchstart'].forEach(function(evtName) {
