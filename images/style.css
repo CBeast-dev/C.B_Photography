@@ -522,12 +522,6 @@ main > section { padding: 36px 16px; }
   height: 100%;
   object-fit: cover;
   display: block;
-  filter: grayscale(100%);
-  transition: filter 0.2s;
-}
-
-.card-thumb-grid img:hover {
-  filter: grayscale(0%);
 }
 
 .img-icon { font-size: 32px; color: var(--green); text-shadow: var(--glow); }

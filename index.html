@@ -197,6 +197,15 @@
     (function startBootSequence() {
       var bootScreen = document.getElementById('boot-screen');
       var appShell = document.getElementById('app-shell');
+      var hasBooted = sessionStorage.getItem('cbBootShown') === '1';
+
+      if (hasBooted) {
+        appShell.classList.remove('app-shell-hidden');
+        bootScreen.remove();
+        window.scrollTo(0, 0);
+        return;
+      }
+
       var bootLines = bootScreen.querySelectorAll('.boot-line');
       var lastBootLine = bootLines[bootLines.length - 1];
 
@@ -214,6 +223,7 @@
       setTimeout(function() {
         bootScreen.classList.add('boot-screen-hidden');
         appShell.classList.remove('app-shell-hidden');
+        sessionStorage.setItem('cbBootShown', '1');
         document.body.classList.remove('is-booting');
         window.scrollTo(0, 0);
 
