@@ -239,22 +239,51 @@
       var len = Math.floor(ctx.sampleRate * duration);
       var buffer = ctx.createBuffer(1, len, ctx.sampleRate);
       var data = buffer.getChannelData(0);
-      for (var i = 0; i < len; i += 1) {
-        data[i] = (Math.random() * 2 - 1) * 0.55;
+      var i;
+
+      for (i = 0; i < len; i += 1) {
+        var progress = i / len;
+        data[i] = (Math.random() * 2 - 1) * (0.2 - progress * 0.12);
       }
 
-      var source = ctx.createBufferSource();
-      var filter = ctx.createBiquadFilter();
-      var gain = ctx.createGain();
-      source.buffer = buffer;
-      filter.type = 'highpass';
-      filter.frequency.value = 850;
-      gain.gain.value = 0.05;
-      source.connect(filter);
-      filter.connect(gain);
-      gain.connect(ctx.destination);
-      source.start();
-      source.stop(ctx.currentTime + duration);
+      var noiseSource = ctx.createBufferSource();
+      var noiseFilter = ctx.createBiquadFilter();
+      var noiseGain = ctx.createGain();
+      var motor = ctx.createOscillator();
+      var wobble = ctx.createOscillator();
+      var motorGain = ctx.createGain();
+
+      noiseSource.buffer = buffer;
+      noiseFilter.type = 'lowpass';
+      noiseFilter.frequency.value = 1900;
+      noiseGain.gain.setValueAtTime(0.035, ctx.currentTime);
+      noiseGain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+
+      motor.type = 'sawtooth';
+      motor.frequency.setValueAtTime(86, ctx.currentTime);
+      motor.frequency.exponentialRampToValueAtTime(62, ctx.currentTime + duration);
+
+      wobble.type = 'sine';
+      wobble.frequency.setValueAtTime(7, ctx.currentTime);
+      wobble.connect(motor.frequency);
+
+      motorGain.gain.setValueAtTime(0.0001, ctx.currentTime);
+      motorGain.gain.linearRampToValueAtTime(0.02, ctx.currentTime + 0.04);
+      motorGain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+
+      noiseSource.connect(noiseFilter);
+      noiseFilter.connect(noiseGain);
+      noiseGain.connect(ctx.destination);
+
+      motor.connect(motorGain);
+      motorGain.connect(ctx.destination);
+
+      noiseSource.start();
+      motor.start();
+      wobble.start();
+      noiseSource.stop(ctx.currentTime + duration);
+      motor.stop(ctx.currentTime + duration);
+      wobble.stop(ctx.currentTime + duration);
     }
 
     document.body.classList.add('folder-opening');
