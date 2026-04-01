@@ -291,6 +291,53 @@
         secondaryOscillator.stop(now + durationMs / 1000 + 0.02);
       }
 
+      function playKeyClick(volume, durationMs, toneFrequency) {
+        ensureAudioContext();
+        if (!audioContext) return;
+
+        var now = audioContext.currentTime;
+        var sampleCount = Math.max(1, Math.floor(audioContext.sampleRate * (durationMs / 1000)));
+        var buffer = audioContext.createBuffer(1, sampleCount, audioContext.sampleRate);
+        var data = buffer.getChannelData(0);
+        var i;
+
+        for (i = 0; i < sampleCount; i += 1) {
+          var decay = 1 - i / sampleCount;
+          data[i] = (Math.random() * 2 - 1) * decay * 0.7;
+        }
+
+        var noiseSource = audioContext.createBufferSource();
+        var noiseFilter = audioContext.createBiquadFilter();
+        var noiseGain = audioContext.createGain();
+        var toneOsc = audioContext.createOscillator();
+        var toneGain = audioContext.createGain();
+
+        noiseSource.buffer = buffer;
+        noiseFilter.type = 'bandpass';
+        noiseFilter.frequency.setValueAtTime(2200, now);
+        noiseFilter.Q.value = 0.7;
+        noiseGain.gain.setValueAtTime(volume, now);
+        noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + durationMs / 1000);
+
+        toneOsc.type = 'square';
+        toneOsc.frequency.setValueAtTime(toneFrequency, now);
+        toneOsc.frequency.exponentialRampToValueAtTime(Math.max(90, toneFrequency * 0.72), now + durationMs / 1000);
+        toneGain.gain.setValueAtTime(volume * 0.55, now);
+        toneGain.gain.exponentialRampToValueAtTime(0.0001, now + durationMs / 1000 + 0.01);
+
+        noiseSource.connect(noiseFilter);
+        noiseFilter.connect(noiseGain);
+        noiseGain.connect(audioContext.destination);
+
+        toneOsc.connect(toneGain);
+        toneGain.connect(audioContext.destination);
+
+        noiseSource.start(now);
+        toneOsc.start(now);
+        noiseSource.stop(now + durationMs / 1000 + 0.01);
+        toneOsc.stop(now + durationMs / 1000 + 0.02);
+      }
+
       function playTypingTick(charIndex, character) {
         if (!audioContext || character === ' ') return;
 
@@ -298,9 +345,9 @@
         if (nowMs - lastTypeTickAt < 34) return;
         lastTypeTickAt = nowMs;
 
-        var base = /[\[\]0-9]/.test(character) ? 640 : 520;
-        var offset = (charIndex % 3) * 24;
-        playBootTone(base + offset, 28, 0.018, 'square');
+        var base = /[\[\]0-9]/.test(character) ? 210 : 170;
+        var offset = (charIndex % 3) * 14;
+        playKeyClick(0.026, 26, base + offset);
       }
 
       function playLineCompleteTone(index) {
