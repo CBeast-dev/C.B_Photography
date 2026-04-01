@@ -53,9 +53,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 16px;
   background:
-    radial-gradient(circle at 50% 40%, rgba(29,224,0,0.08), transparent 45%),
+    radial-gradient(circle at 50% 40%, rgba(29,224,0,0.1), transparent 42%),
+    linear-gradient(rgba(29,224,0,0.025) 1px, transparent 1px),
     var(--bg);
+  background-size: 100% 100%, 100% 4px, auto;
   transition: opacity 0.3s ease;
 }
 
@@ -64,16 +67,79 @@ body {
   pointer-events: none;
 }
 
+.click-screen-panel {
+  width: min(760px, 100%);
+  border: 2px solid var(--border);
+  box-shadow: 0 0 30px rgba(29,224,0,0.12);
+  background: rgba(2, 4, 2, 0.96);
+}
+
+.click-screen-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 4px 10px;
+  background: var(--win-hdr);
+  color: var(--win-txt);
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  letter-spacing: 0.06em;
+  border-bottom: 2px solid #001400;
+}
+
+.click-screen-status {
+  color: var(--amber);
+  text-shadow: 0 0 8px rgba(15,170,68,0.4);
+}
+
+.click-screen-window {
+  margin-top: 0;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+.click-screen-body {
+  padding: 22px 24px 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.click-screen-line {
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  color: var(--green);
+  text-shadow: var(--glow);
+  line-height: 1.3;
+}
+
+.click-screen-line span {
+  color: var(--amber);
+}
+
 .click-screen-button {
   border: 2px solid var(--green);
-  background: rgba(2, 4, 2, 0.92);
+  background: linear-gradient(180deg, rgba(7, 24, 7, 0.95), rgba(2, 8, 2, 0.98));
   color: var(--green);
   font-family: 'Orbitron', monospace;
-  font-size: clamp(28px, 5vw, 56px);
-  letter-spacing: 0.32em;
-  padding: 18px 28px 18px 42px;
-  box-shadow: 0 0 28px rgba(29,224,0,0.2), inset 0 0 18px rgba(29,224,0,0.08);
+  font-size: clamp(22px, 4vw, 36px);
+  letter-spacing: 0.18em;
+  padding: 16px 24px 16px 28px;
+  margin-top: 10px;
+  box-shadow: 0 0 28px rgba(29,224,0,0.16), inset 0 0 18px rgba(29,224,0,0.08);
   text-shadow: var(--glow);
+  align-self: stretch;
+}
+
+.click-screen-button:hover {
+  background: linear-gradient(180deg, rgba(13, 36, 13, 0.98), rgba(4, 12, 4, 1));
+}
+
+.click-screen-button:active {
+  transform: translateY(1px);
 }
 
 .boot-screen {

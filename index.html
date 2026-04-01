@@ -8,7 +8,26 @@
 </head>
 <body>
   <div id="click-screen" class="click-screen">
-    <button id="click-screen-button" class="click-screen-button" type="button">CLICK</button>
+    <div class="click-screen-panel">
+      <div class="click-screen-bar">
+        <span>PRE-BOOT AUTH REQUIRED</span>
+        <span class="click-screen-status">STANDBY</span>
+      </div>
+      <div class="click-screen-window terminal-window">
+        <div class="terminal-titlebar">
+          <span>[ ACCESS_GATE.EXE ]</span>
+          <div class="win95-buttons">
+            <button>_</button><button>&#9633;</button><button>&#x2715;</button>
+          </div>
+        </div>
+        <div class="click-screen-body">
+          <p class="click-screen-line">C.B_PHOTOGRAPHY SYSTEM AWAITING INPUT...</p>
+          <p class="click-screen-line">PRIMARY DISPLAY LINK ESTABLISHED <span>[OK]</span></p>
+          <p class="click-screen-line">AUDIO CHANNEL ARMED <span>[OK]</span></p>
+          <button id="click-screen-button" class="click-screen-button" type="button">CLICK TO BOOT</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div id="boot-screen" class="boot-screen boot-screen-hidden">
