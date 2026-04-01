@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Street Fashion - C.B Photography</title>
+  <link rel="stylesheet" href="images/style.css">
+  <style>
+    html, body, * {
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='4' fill='none' stroke='%231de000' stroke-width='1.5'/%3E%3Cline x1='12' y1='1' x2='12' y2='7' stroke='%231de000' stroke-width='1.5'/%3E%3Cline x1='12' y1='17' x2='12' y2='23' stroke='%231de000' stroke-width='1.5'/%3E%3Cline x1='1' y1='12' x2='7' y2='12' stroke='%231de000' stroke-width='1.5'/%3E%3Cline x1='17' y1='12' x2='23' y2='12' stroke='%231de000' stroke-width='1.5'/%3E%3C/svg%3E") 12 12, crosshair;
+    }
+    button, a, [onclick], .gallery-item, .back-btn, .lightbox-close {
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='4' fill='none' stroke='%231de000' stroke-width='1.5'/%3E%3Cline x1='12' y1='1' x2='12' y2='7' stroke='%231de000' stroke-width='1.5'/%3E%3Cline x1='12' y1='17' x2='12' y2='23' stroke='%231de000' stroke-width='1.5'/%3E%3Cline x1='1' y1='12' x2='7' y2='12' stroke='%231de000' stroke-width='1.5'/%3E%3Cline x1='17' y1='12' x2='23' y2='12' stroke='%231de000' stroke-width='1.5'/%3E%3C/svg%3E") 12 12, crosshair;
+    }
+    .gallery-header {
+      padding: 16px 16px 0;
+    }
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 6px 16px;
+      border: 2px solid var(--green);
+      color: var(--green);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 13px;
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      background: transparent;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .back-btn:hover {
+      background: var(--green);
+      color: var(--bg);
+    }
+    .gallery-panel {
+      margin: 0 16px 80px;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      padding: 16px;
+      background: #040904;
+    }
+    .gallery-item {
+      border: 2px solid;
+      border-color: #030803 #163a16 #163a16 #030803;
+      background: #0b150b;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      position: relative;
+      overflow: hidden;
+    }
+    .gallery-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 18px rgba(29,224,0,0.2);
+    }
+    .gallery-item img {
+      width: 100%;
+      display: block;
+      filter: grayscale(100%);
+      transition: filter 0.3s;
+    }
+    .gallery-item:hover img {
+      filter: grayscale(0%);
+    }
+    .gallery-item-footer {
+      display: none;
+    }
+
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.95);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .lightbox.active { display: flex; }
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 85vh;
+      object-fit: contain;
+      border: 2px solid var(--green);
+      box-shadow: 0 0 30px rgba(29,224,0,0.3);
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 16px;
+      right: 24px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 28px;
+      color: var(--green);
+      cursor: pointer;
+      background: none;
+      border: none;
+      line-height: 1;
+    }
+    .lightbox-close:hover { color: #fff; }
+    .lightbox-caption {
+      margin-top: 10px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+  </style>
+</head>
+<body>
+  <div class="scanlines"></div>
+
+  <div class="gallery-header">
+    <a href="index.html" class="back-btn">&#8592; [ BACK ]</a>
+    <div class="terminal-window" style="margin-bottom:12px;">
+      <div class="terminal-titlebar">
+        <span>C:\PHOTOS\STREET_FASHION\ - 6 ITEMS</span>
+        <div class="win95-buttons">
+          <button>_</button><button>&#9633;</button><button>&#x2715;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gallery-panel">
+    <div class="panel">
+      <div class="panel-titlebar"><span>Street Fashion - Gallery View</span></div>
+      <div class="gallery-grid">
+        <div class="gallery-item" onclick="openLightbox('Images 2/6content_C_Beas.jpg.jpg', '6content_C_Beas.jpg')">
+          <img src="Images 2/6content_C_Beas.jpg.jpg" alt="Street Fashion Photo 1">
+          <div class="gallery-item-footer"><span>6content_C_Beas.jpg</span><span>STREET</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('Images 2/7content_C_Beas.jpg.jpg', '7content_C_Beas.jpg')">
+          <img src="Images 2/7content_C_Beas.jpg.jpg" alt="Street Fashion Photo 2">
+          <div class="gallery-item-footer"><span>7content_C_Beas.jpg</span><span>STREET</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('Images 2/8content_C_Beas.jpg.jpg', '8content_C_Beas.jpg')">
+          <img src="Images 2/8content_C_Beas.jpg.jpg" alt="Street Fashion Photo 3">
+          <div class="gallery-item-footer"><span>8content_C_Beas.jpg</span><span>STREET</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('Images 2/9content_C_Beas.jpg.jpg', '9content_C_Beas.jpg')">
+          <img src="Images 2/9content_C_Beas.jpg.jpg" alt="Street Fashion Photo 4">
+          <div class="gallery-item-footer"><span>9content_C_Beas.jpg</span><span>STREET</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('Images 2/10content_C_Beas.jpg.jpg', '10content_C_Beas.jpg')">
+          <img src="Images 2/10content_C_Beas.jpg.jpg" alt="Street Fashion Photo 5">
+          <div class="gallery-item-footer"><span>10content_C_Beas.jpg</span><span>STREET</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('Images 2/8200983_8200983-R1-008-2A.jpg', '8200983_8200983-R1-008-2A.jpg')">
+          <img src="Images 2/8200983_8200983-R1-008-2A.jpg" alt="Street Fashion Photo 6">
+          <div class="gallery-item-footer"><span>8200983_8200983-R1-008-2A.jpg</span><span>STREET</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+    <button class="lightbox-close" onclick="closeLightbox()">&#x2715;</button>
+    <img id="lightbox-img" src="" alt="">
+    <p class="lightbox-caption" id="lightbox-caption"></p>
+  </div>
+
+  <footer class="taskbar">
+    <div class="taskbar-start"><button class="start-btn">&#x229E; START</button></div>
+    <div class="taskbar-items"><span class="taskbar-item active">&#128247; STREET FASHION</span></div>
+    <div class="taskbar-tray">
+      <span>&#128266;</span>
+      <span class="tray-time" id="clock">00:00</span>
+    </div>
+  </footer>
+
+  <script>
+    function updateClock() {
+      var now = new Date();
+      var t = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('clock').textContent = t;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    function openLightbox(src, caption) {
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox-caption').textContent = caption;
+      document.getElementById('lightbox').classList.add('active');
+    }
+    function closeLightbox(e) {
+      if (!e || e.target !== document.getElementById('lightbox-img')) {
+        document.getElementById('lightbox').classList.remove('active');
+      }
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
+</body>
+</html>
