@@ -198,6 +198,10 @@
       var bootScreen = document.getElementById('boot-screen');
       var appShell = document.getElementById('app-shell');
       var hasBooted = sessionStorage.getItem('cbBootShown') === '1';
+      var audioContext = null;
+      var bootNoiseSource = null;
+      var bootNoiseGain = null;
+      var bootNoiseStarted = false;
 
       if (hasBooted) {
         appShell.classList.remove('app-shell-hidden');
@@ -205,6 +209,72 @@
         window.scrollTo(0, 0);
         return;
       }
+
+      function startBootNoise() {
+        if (bootNoiseStarted) return;
+
+        var AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+
+        if (!audioContext) {
+          audioContext = new AudioCtx();
+        }
+
+        audioContext.resume().then(function() {
+          if (bootNoiseStarted) return;
+
+          var sampleRate = audioContext.sampleRate;
+          var buffer = audioContext.createBuffer(1, sampleRate * 2, sampleRate);
+          var data = buffer.getChannelData(0);
+
+          for (var i = 0; i < data.length; i += 1) {
+            data[i] = (Math.random() * 2 - 1) * 0.45;
+          }
+
+          bootNoiseSource = audioContext.createBufferSource();
+          bootNoiseGain = audioContext.createGain();
+          var filter = audioContext.createBiquadFilter();
+
+          filter.type = 'highpass';
+          filter.frequency.value = 900;
+          bootNoiseGain.gain.value = 0.04;
+
+          bootNoiseSource.buffer = buffer;
+          bootNoiseSource.loop = true;
+          bootNoiseSource.connect(filter);
+          filter.connect(bootNoiseGain);
+          bootNoiseGain.connect(audioContext.destination);
+          bootNoiseSource.start();
+          bootNoiseStarted = true;
+        }).catch(function() {
+          // Some browsers block autoplay audio until a user gesture.
+        });
+      }
+
+      function stopBootNoise() {
+        if (!bootNoiseSource || !audioContext) return;
+
+        var now = audioContext.currentTime;
+        if (bootNoiseGain) {
+          bootNoiseGain.gain.cancelScheduledValues(now);
+          bootNoiseGain.gain.setValueAtTime(bootNoiseGain.gain.value || 0.04, now);
+          bootNoiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
+        }
+
+        try {
+          bootNoiseSource.stop(now + 0.13);
+        } catch (e) {}
+
+        bootNoiseSource = null;
+        bootNoiseGain = null;
+        bootNoiseStarted = false;
+      }
+
+      ['pointerdown', 'keydown', 'touchstart'].forEach(function(evtName) {
+        window.addEventListener(evtName, startBootNoise, { once: true });
+      });
+
+      startBootNoise();
 
       var bootLines = bootScreen.querySelectorAll('.boot-line');
       var typeSpeedMs = 24;
@@ -219,6 +289,7 @@
       });
 
       function finishBoot() {
+        stopBootNoise();
         bootScreen.classList.add('boot-screen-hidden');
         appShell.classList.remove('app-shell-hidden');
         sessionStorage.setItem('cbBootShown', '1');

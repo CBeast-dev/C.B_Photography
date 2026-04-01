@@ -84,99 +84,51 @@
       letter-spacing: 0.08em;
     }
 
-    .file-open-noise {
+    .fullscreen-crt-glitch {
       position: fixed;
       inset: 0;
       z-index: 10002;
       pointer-events: none;
       opacity: 0;
       background-image:
-        radial-gradient(circle at 20% 35%, rgba(200, 230, 255, 0.18) 0 1px, transparent 1px 100%),
-        radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.14) 0 1px, transparent 1px 100%),
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.2) 0 1px, transparent 1px 100%),
+        radial-gradient(circle at 80% 70%, rgba(150,220,255,0.2) 0 1px, transparent 1px 100%),
         repeating-linear-gradient(to bottom, rgba(0,0,0,0.45) 0px, rgba(0,0,0,0.45) 1px, transparent 1px, transparent 2px);
       background-size: 2px 2px, 3px 3px, 100% 2px;
     }
 
-    .file-open-status {
-      position: fixed;
-      left: 16px;
-      bottom: 64px;
-      z-index: 10003;
-      pointer-events: none;
-      opacity: 0;
-      color: #c6d6df;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-shadow: 0 0 10px rgba(255,255,255,0.35);
+    body.folder-opening {
+      filter: contrast(1.2) brightness(0.82) saturate(0.35);
+      animation: folderShake 120ms steps(2) 9;
     }
 
-    body.file-opening .file-open-noise {
-      opacity: 0.58;
-      animation: fileNoiseMove 95ms steps(3) infinite;
+    body.folder-opening .fullscreen-crt-glitch {
+      opacity: 0.7;
+      animation: folderNoise 90ms steps(2) infinite;
     }
 
-    body.file-opening .gallery-panel,
-    body.file-opening .gallery-header {
-      animation: fileGlitchShift 140ms steps(2) 10;
-    }
-
-    body.file-opening .gallery-panel {
-      position: relative;
-      filter: contrast(1.15) brightness(0.86) saturate(0.2);
-    }
-
-    body.file-opening .gallery-panel::before,
-    body.file-opening .gallery-panel::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      opacity: 0.26;
-    }
-
-    body.file-opening .gallery-panel::before {
-      background: rgba(170, 200, 255, 0.12);
-      transform: translateX(-3px);
-    }
-
-    body.file-opening .gallery-panel::after {
-      background: rgba(255, 255, 255, 0.10);
-      transform: translateX(3px);
-    }
-
-    body.file-opening .file-open-status {
-      opacity: 1;
-      animation: fileStatusBlink 220ms steps(2) infinite;
-    }
-
-    @keyframes fileNoiseMove {
+    @keyframes folderNoise {
       0% { transform: translate(0, 0); }
       25% { transform: translate(2px, -1px); }
-      50% { transform: translate(-2px, 2px); }
-      75% { transform: translate(2px, 1px); }
+      50% { transform: translate(-2px, 1px); }
+      75% { transform: translate(1px, 2px); }
       100% { transform: translate(0, 0); }
     }
 
-    @keyframes fileGlitchShift {
+    @keyframes folderShake {
       0% { transform: translate(0, 0); }
-      20% { transform: translate(-3px, 1px); }
-      40% { transform: translate(3px, -1px); }
-      60% { transform: translate(-2px, 2px); }
-      80% { transform: translate(2px, -1px); }
+      20% { transform: translate(-2px, 1px); }
+      40% { transform: translate(2px, -1px); }
+      60% { transform: translate(-1px, -1px); }
+      80% { transform: translate(1px, 1px); }
       100% { transform: translate(0, 0); }
     }
 
-    @keyframes fileStatusBlink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.35; }
-    }
   </style>
 </head>
 <body>
   <div class="scanlines"></div>
-  <div class="file-open-noise" aria-hidden="true"></div>
-  <div class="file-open-status" aria-hidden="true">CAM_FEED_INIT // SIGNAL_UNSTABLE // AUDIO_NOISE: HIGH</div>
+  <div class="fullscreen-crt-glitch" aria-hidden="true"></div>
 
   <div class="gallery-header">
     <a href="index.html" class="back-btn">&#8592; [ BACK ]</a>
@@ -244,10 +196,39 @@
       if (e.key === 'Escape') closeLightbox();
     });
 
-    document.body.classList.add('file-opening');
+    function playFolderGlitchSound() {
+      var AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+
+      var ctx = new AudioCtx();
+      var duration = 0.95;
+      var len = Math.floor(ctx.sampleRate * duration);
+      var buffer = ctx.createBuffer(1, len, ctx.sampleRate);
+      var data = buffer.getChannelData(0);
+      for (var i = 0; i < len; i += 1) {
+        data[i] = (Math.random() * 2 - 1) * 0.55;
+      }
+
+      var source = ctx.createBufferSource();
+      var filter = ctx.createBiquadFilter();
+      var gain = ctx.createGain();
+      source.buffer = buffer;
+      filter.type = 'highpass';
+      filter.frequency.value = 850;
+      gain.gain.value = 0.05;
+      source.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+      source.start();
+      source.stop(ctx.currentTime + duration);
+    }
+
+    document.body.classList.add('folder-opening');
+    try { playFolderGlitchSound(); } catch (e) {}
     setTimeout(function() {
-      document.body.classList.remove('file-opening');
-    }, 1350);
+      document.body.classList.remove('folder-opening');
+    }, 1200);
+
   </script>
 </body>
 </html>
