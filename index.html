@@ -347,12 +347,12 @@
 
         var base = /[\[\]0-9]/.test(character) ? 210 : 170;
         var offset = (charIndex % 3) * 14;
-        playKeyClick(0.026, 26, base + offset);
+        playKeyClick(0.04, 26, base + offset);
       }
 
       function playLineCompleteTone(index) {
         if (!audioContext) return;
-        playBootTone(310 + index * 11, 92, 0.022, 'triangle');
+        playBootTone(310 + index * 11, 92, 0.028, 'triangle');
       }
 
       var bootLines = bootScreen.querySelectorAll('.boot-line');
