@@ -200,6 +200,8 @@
       var bootLines = bootScreen.querySelectorAll('.boot-line');
       var lastBootLine = bootLines[bootLines.length - 1];
 
+      document.body.classList.add('is-booting');
+
       function toMilliseconds(value) {
         if (!value) return 0;
         if (value.indexOf('ms') !== -1) return parseFloat(value);
@@ -212,6 +214,8 @@
       setTimeout(function() {
         bootScreen.classList.add('boot-screen-hidden');
         appShell.classList.remove('app-shell-hidden');
+        document.body.classList.remove('is-booting');
+        window.scrollTo(0, 0);
 
         setTimeout(function() {
           bootScreen.remove();
