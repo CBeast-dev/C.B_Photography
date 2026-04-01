@@ -104,10 +104,75 @@
       letter-spacing: 0.08em;
     }
 
+    .file-open-noise {
+      position: fixed;
+      inset: 0;
+      z-index: 10002;
+      pointer-events: none;
+      opacity: 0;
+      background-image:
+        radial-gradient(circle at 20% 35%, rgba(29,224,0,0.22) 0 1px, transparent 1px 100%),
+        radial-gradient(circle at 80% 70%, rgba(29,224,0,0.18) 0 1px, transparent 1px 100%),
+        repeating-linear-gradient(to bottom, rgba(0,0,0,0.18) 0px, rgba(0,0,0,0.18) 1px, transparent 1px, transparent 3px);
+      background-size: 3px 3px, 4px 4px, 100% 3px;
+      mix-blend-mode: screen;
+    }
+
+    body.file-opening .file-open-noise {
+      opacity: 0.35;
+      animation: fileNoiseMove 180ms steps(2) infinite;
+    }
+
+    body.file-opening .gallery-panel,
+    body.file-opening .gallery-header {
+      animation: fileGlitchShift 220ms steps(2) 5;
+    }
+
+    body.file-opening .gallery-panel {
+      position: relative;
+    }
+
+    body.file-opening .gallery-panel::before,
+    body.file-opening .gallery-panel::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.18;
+    }
+
+    body.file-opening .gallery-panel::before {
+      background: rgba(255, 0, 0, 0.08);
+      transform: translateX(-2px);
+    }
+
+    body.file-opening .gallery-panel::after {
+      background: rgba(0, 220, 255, 0.08);
+      transform: translateX(2px);
+    }
+
+    @keyframes fileNoiseMove {
+      0% { transform: translate(0, 0); }
+      25% { transform: translate(1px, -1px); }
+      50% { transform: translate(-1px, 1px); }
+      75% { transform: translate(1px, 1px); }
+      100% { transform: translate(0, 0); }
+    }
+
+    @keyframes fileGlitchShift {
+      0% { transform: translate(0, 0); }
+      20% { transform: translate(-2px, 0); }
+      40% { transform: translate(2px, 1px); }
+      60% { transform: translate(-1px, -1px); }
+      80% { transform: translate(1px, 0); }
+      100% { transform: translate(0, 0); }
+    }
+
   </style>
 </head>
 <body>
   <div class="scanlines"></div>
+  <div class="file-open-noise" aria-hidden="true"></div>
 
   <div class="gallery-header">
     <a href="index.html" class="back-btn">&#8592; [ BACK ]</a>
@@ -184,6 +249,11 @@
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') closeLightbox();
     });
+
+    document.body.classList.add('file-opening');
+    setTimeout(function() {
+      document.body.classList.remove('file-opening');
+    }, 950);
   </script>
 </body>
 </html>
