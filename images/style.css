@@ -247,6 +247,26 @@ body.is-booting {
   opacity: 1;
 }
 
+.boot-audio-prompt {
+  margin-top: 18px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px;
+  color: var(--amber);
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-shadow: 0 0 10px rgba(15,170,68,0.35);
+  animation: bootPromptBlink 1s steps(2) infinite;
+}
+
+.boot-audio-prompt-hidden {
+  display: none;
+}
+
+@keyframes bootPromptBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
 .ok    { color: var(--green); font-weight: bold; }
 .cursor {
   display: inline-block;

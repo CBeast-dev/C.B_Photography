@@ -32,6 +32,7 @@
           <p class="boot-line" data-text="Memory check: 640K... [OK]"></p>
           <p class="boot-line" data-text="System ready."></p>
           <p class="boot-line" data-text="> WELCOME TO C.B PHOTOGRAPHY"></p>
+          <p id="boot-audio-prompt" class="boot-audio-prompt">[ CLICK OR PRESS ANY KEY TO START SYSTEM ]</p>
         </div>
       </div>
     </header>
@@ -194,9 +195,11 @@
     (function startBootSequence() {
       var bootScreen = document.getElementById('boot-screen');
       var appShell = document.getElementById('app-shell');
+      var bootPrompt = document.getElementById('boot-audio-prompt');
       var hasBooted = sessionStorage.getItem('cbBootShown') === '1';
       var audioContext = null;
       var lastTypeTickAt = 0;
+      var bootStarted = false;
 
       if (hasBooted) {
         appShell.classList.remove('app-shell-hidden');
@@ -279,6 +282,24 @@
         line.classList.remove('boot-line-visible');
       });
 
+      function beginBootSequence() {
+        if (bootStarted) return;
+        bootStarted = true;
+
+        if (bootPrompt) {
+          bootPrompt.classList.add('boot-audio-prompt-hidden');
+        }
+
+        setTimeout(function() {
+          typeLine(0);
+        }, 140);
+      }
+
+      function unlockAudioAndStart() {
+        ensureAudioContext();
+        beginBootSequence();
+      }
+
       function finishBoot() {
         bootScreen.classList.add('boot-screen-hidden');
         appShell.classList.remove('app-shell-hidden');
@@ -326,7 +347,19 @@
         }, typeSpeedMs);
       }
 
-      typeLine(0);
+      var AudioCtx = window.AudioContext || window.webkitAudioContext;
+
+      if (!AudioCtx) {
+        if (bootPrompt) {
+          bootPrompt.textContent = '[ STARTING SYSTEM ]';
+        }
+        beginBootSequence();
+        return;
+      }
+
+      ['pointerdown', 'keydown', 'touchstart'].forEach(function(evtName) {
+        window.addEventListener(evtName, unlockAudioAndStart, { once: true });
+      });
     })();
   </script>
 </body>
