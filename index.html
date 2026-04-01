@@ -1,1 +1,187 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C.B Photography // SYSTEM BOOT</title>
+  <link rel="stylesheet" href="images/style.css">
+</head>
+<body>
+  <!-- CRT scanlines overlay -->
+  <div class="scanlines"></div>
 
+  <!-- BIOS-style header -->
+  <header class="crt-header">
+    <div class="bios-bar">
+      <span>CB-PHOTO BIOS v2.6 // COPYRIGHT C.B PHOTOGRAPHY 1996-2026</span>
+      <span class="led-group">
+        <span class="led led-green"></span>
+        <span class="led led-amber"></span>
+        <span class="led led-red"></span>
+        PWR&nbsp;HDD&nbsp;ACT
+      </span>
+    </div>
+    <div class="terminal-window">
+      <div class="terminal-titlebar">
+        <span>[ TERMINAL.EXE ]</span>
+        <div class="win95-buttons">
+          <button>_</button><button>&#9633;</button><button>&#x2715;</button>
+        </div>
+      </div>
+      <div class="terminal-body">
+        <p class="boot-line">Initializing C.B_PHOTOGRAPHY.SYS...</p>
+        <p class="boot-line">Loading visual modules&#8230; <span class="ok">[OK]</span></p>
+        <p class="boot-line">Calibrating aperture drivers&#8230; <span class="ok">[OK]</span></p>
+        <p class="boot-line">Memory check: 640K&#8230; <span class="ok">[OK]</span></p>
+        <p class="boot-line">System ready.</p>
+        <p class="boot-line">&gt; WELCOME TO <strong>C.B PHOTOGRAPHY</strong><span class="cursor">_</span></p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Win95-style toolbar nav -->
+  <nav class="toolbar">
+    <div class="toolbar-inner">
+      <button class="toolbar-btn active">[ HOME ]</button>
+      <button class="toolbar-btn" onclick="document.getElementById('portfolio').scrollIntoView({behavior:'smooth'})">[ PORTFOLIO ]</button>
+      <button class="toolbar-btn" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">[ ABOUT ]</button>
+      <button class="toolbar-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">[ CONTACT ]</button>
+      <div class="toolbar-spacer"></div>
+      <span class="toolbar-clock" id="nav-clock">00:00</span>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="modern-logo">
+        <div class="logo-frame">
+          <span class="logo-text">C.B</span>
+        </div>
+        <h1 class="logo-title">PHOTOGRAPHY</h1>
+      </div>
+      <p class="hero-sub">// CAPTURING THE WORLD THROUGH THE LENS //</p>
+      <a href="#portfolio" class="crt-btn">[ ENTER PORTFOLIO ]</a>
+    </section>
+
+    <!-- Stats bar -->
+    <section class="stats-bar">
+      <div class="stat-item"><span class="stat-label">PROJECTS</span><span class="stat-value">4</span></div>
+      <span class="divider">|</span>
+      <div class="stat-item"><span class="stat-label">YEARS ACTIVE</span><span class="stat-value">02</span></div>
+      <span class="divider">|</span>
+      <div class="stat-item"><span class="stat-label">RESOLUTION</span><span class="stat-value">Film & Digital</span></div>
+    </section>
+
+    <!-- Portfolio -->
+    <section class="portfolio" id="portfolio">
+      <div class="section-header">
+        <span class="section-icon">&#128193;</span>
+        <h2>[ PORTFOLIO ] <span class="blink">&#9646;</span></h2>
+        <span class="section-meta">C:\PHOTOS\PORTFOLIO\ &#8212; 6 ITEMS</span>
+      </div>
+      <div class="file-explorer">
+        <div class="explorer-toolbar">
+          <span>File</span><span>Edit</span><span>View</span><span>Help</span>
+        </div>
+        <div class="photo-grid">
+          <div class="photo-card" onclick="window.open('black-white-fashion.html','_blank')" style="cursor:pointer;"><div class="card-titlebar"><span>&nbsp;</span></div><div class="card-thumb-grid"><img src="images/1content_C_Beas.jpg.jpg" alt="photo 1"><img src="images/2content_C_Beas.jpg.jpg" alt="photo 2"><img src="images/3content_C_Beas.jpg.jpg" alt="photo 3"><img src="images/5content_C_Beas.jpg.jpg" alt="photo 4"></div><div class="card-footer"><span>Black & White Fashion</span><span>4 FILES</span></div></div>
+          <div class="photo-card"><div class="card-titlebar"><span>IMG_001.JPG</span></div><div class="card-img-placeholder"><span class="img-icon">&#128444;</span><span>640 &#215; 480</span></div><div class="card-footer"><span>Street Fashion</span><span>2.4 MB</span></div></div>
+          <div class="photo-card"><div class="card-titlebar"><span>IMG_003.JPG</span></div><div class="card-img-placeholder"><span class="img-icon">&#128444;</span><span>640 &#215; 480</span></div><div class="card-footer"><span>GLITCH</span><span>2.8 MB</span></div></div>
+          <div class="photo-card"><div class="card-titlebar"><span>IMG_004.JPG</span></div><div class="card-img-placeholder"><span class="img-icon">&#128444;</span><span>640 &#215; 480</span></div><div class="card-footer"><span>NATURE</span><span>3.5 MB</span></div></div>
+          <div class="photo-card"><div class="card-titlebar"><span>IMG_005.JPG</span></div><div class="card-img-placeholder"><span class="img-icon">&#128444;</span><span>640 &#215; 480</span></div><div class="card-footer"><span>ABSTRACT</span><span>2.1 MB</span></div></div>
+          <div class="photo-card"><div class="card-titlebar"><span>IMG_006.JPG</span></div><div class="card-img-placeholder"><span class="img-icon">&#128444;</span><span>640 &#215; 480</span></div><div class="card-footer"><span>URBAN</span><span>2.9 MB</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="about" id="about">
+      <div class="section-header">
+        <h2>[ ABOUT.TXT ] <span class="blink">&#9646;</span></h2>
+      </div>
+      <div class="panel">
+        <div class="panel-titlebar"><span>ABOUT.TXT &#8212; Notepad</span></div>
+        <div class="panel-body">
+          <div class="about-grid">
+            <div class="about-avatar">
+              <div class="avatar-box"><span>C.B</span></div>
+              <div class="spec-list">
+                <p>NAME:&nbsp;&nbsp;&nbsp;<span>C.B</span></p>
+                <p>ROLE:&nbsp;&nbsp;&nbsp;<span>PHOTOGRAPHER</span></p>
+                <p>RAM:&nbsp;&nbsp;&nbsp;&nbsp;<span>INFINITE IDEAS</span></p>
+                <p>CONTACT:&nbsp;<span>Carlos.E.Beas4@gmail.com</span></p>
+              </div>
+            </div>
+            <div class="about-text">
+              <p>&gt; Hello, World.</p>
+              <p>&gt; I am C.B &#8212; a photographer obsessed with<br>&nbsp;&nbsp;&nbsp;light, shadow, and the spaces in between.</p>
+              <p>&gt; I am a photographer based in the Bay Area whose work<br>&nbsp;&nbsp;&nbsp;focuses on capturing the essence of city life and its people.</p>
+              <p>&gt; Available for commissions and collaborations.</p>
+              <p>&gt; <span class="cursor">_</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact" id="contact">
+      <div class="section-header">
+        <h2>[ MAILTO.EXE ] <span class="blink">&#9646;</span></h2>
+      </div>
+      <div class="panel">
+        <div class="panel-titlebar"><span>New Message &#8212; CB_MAIL v1.0</span></div>
+        <div class="panel-body">
+          <form class="contact-form" onsubmit="return false;">
+            <div class="form-row"><label>FROM:</label><input type="email" placeholder="your_name@domain.com" autocomplete="email"></div>
+            <div class="form-row"><label>SUBJ:</label><input type="text" placeholder="RE: Photography Inquiry" autocomplete="off"></div>
+            <div class="form-row message-row"><label>MSG:</label><textarea placeholder="Type your message here...&#10;&gt; _"></textarea></div>
+            <div class="form-actions">
+              <button type="submit" class="crt-btn">[ SEND MESSAGE ]</button>
+              <button type="reset" class="crt-btn secondary">[ CLEAR ]</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Win95-style taskbar -->
+  <footer class="taskbar">
+    <div class="taskbar-start"><button class="start-btn">&#x229E; START</button></div>
+    <div class="taskbar-items"><span class="taskbar-item active">&#128247; C.B PHOTOGRAPHY</span></div>
+    <div class="taskbar-tray">
+      <span>&#128266;</span>
+      <span>&#128225;</span>
+      <span class="tray-time" id="clock">00:00</span>
+    </div>
+  </footer>
+
+  <script>
+    function updateClock() {
+      var now = new Date();
+      var h = String(now.getHours()).padStart(2, '0');
+      var m = String(now.getMinutes()).padStart(2, '0');
+      var t = h + ':' + m;
+      document.getElementById('clock').textContent = t;
+      document.getElementById('nav-clock').textContent = t;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    setInterval(function() {
+      document.querySelectorAll('.cursor').forEach(function(c) {
+        c.style.visibility = c.style.visibility === 'hidden' ? 'visible' : 'hidden';
+      });
+    }, 530);
+
+    document.querySelectorAll('.toolbar-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.toolbar-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
