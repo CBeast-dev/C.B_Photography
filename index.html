@@ -7,37 +7,39 @@
   <link rel="stylesheet" href="images/style.css">
 </head>
 <body>
-  <!-- CRT scanlines overlay -->
-  <div class="scanlines"></div>
-
-  <!-- BIOS-style header -->
-  <header class="crt-header">
-    <div class="bios-bar">
-      <span>CB-PHOTO BIOS v2.6 // COPYRIGHT C.B PHOTOGRAPHY 1996-2026</span>
-      <span class="led-group">
-        <span class="led led-green"></span>
-        <span class="led led-amber"></span>
-        <span class="led led-red"></span>
-        PWR&nbsp;HDD&nbsp;ACT
-      </span>
-    </div>
-    <div class="terminal-window">
-      <div class="terminal-titlebar">
-        <span>[ TERMINAL.EXE ]</span>
-        <div class="win95-buttons">
-          <button>_</button><button>&#9633;</button><button>&#x2715;</button>
+  <div id="boot-screen" class="boot-screen">
+    <header class="crt-header boot-header">
+      <div class="bios-bar">
+        <span>CB-PHOTO BIOS v2.6 // COPYRIGHT C.B PHOTOGRAPHY 1996-2026</span>
+        <span class="led-group">
+          <span class="led led-green"></span>
+          <span class="led led-amber"></span>
+          <span class="led led-red"></span>
+          PWR&nbsp;HDD&nbsp;ACT
+        </span>
+      </div>
+      <div class="terminal-window">
+        <div class="terminal-titlebar">
+          <span>[ TERMINAL.EXE ]</span>
+          <div class="win95-buttons">
+            <button>_</button><button>&#9633;</button><button>&#x2715;</button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <p class="boot-line">Initializing C.B_PHOTOGRAPHY.SYS...</p>
+          <p class="boot-line">Loading visual modules&#8230; <span class="ok">[OK]</span></p>
+          <p class="boot-line">Calibrating aperture drivers&#8230; <span class="ok">[OK]</span></p>
+          <p class="boot-line">Memory check: 640K&#8230; <span class="ok">[OK]</span></p>
+          <p class="boot-line">System ready.</p>
+          <p class="boot-line">&gt; WELCOME TO <strong>C.B PHOTOGRAPHY</strong><span class="cursor">_</span></p>
         </div>
       </div>
-      <div class="terminal-body">
-        <p class="boot-line">Initializing C.B_PHOTOGRAPHY.SYS...</p>
-        <p class="boot-line">Loading visual modules&#8230; <span class="ok">[OK]</span></p>
-        <p class="boot-line">Calibrating aperture drivers&#8230; <span class="ok">[OK]</span></p>
-        <p class="boot-line">Memory check: 640K&#8230; <span class="ok">[OK]</span></p>
-        <p class="boot-line">System ready.</p>
-        <p class="boot-line">&gt; WELCOME TO <strong>C.B PHOTOGRAPHY</strong><span class="cursor">_</span></p>
-      </div>
-    </div>
-  </header>
+    </header>
+  </div>
+
+  <div id="app-shell" class="app-shell app-shell-hidden">
+  <!-- CRT scanlines overlay -->
+  <div class="scanlines"></div>
 
   <!-- Win95-style toolbar nav -->
   <nav class="toolbar">
@@ -157,6 +159,7 @@
       <span class="tray-time" id="clock">00:00</span>
     </div>
   </footer>
+  </div>
 
   <script>
     function sendMail(e) {
@@ -190,6 +193,31 @@
         btn.classList.add('active');
       });
     });
+
+    (function startBootSequence() {
+      var bootScreen = document.getElementById('boot-screen');
+      var appShell = document.getElementById('app-shell');
+      var bootLines = bootScreen.querySelectorAll('.boot-line');
+      var lastBootLine = bootLines[bootLines.length - 1];
+
+      function toMilliseconds(value) {
+        if (!value) return 0;
+        if (value.indexOf('ms') !== -1) return parseFloat(value);
+        return parseFloat(value) * 1000;
+      }
+
+      var lineStyle = getComputedStyle(lastBootLine);
+      var bootDurationMs = toMilliseconds(lineStyle.animationDelay) + toMilliseconds(lineStyle.animationDuration) + 220;
+
+      setTimeout(function() {
+        bootScreen.classList.add('boot-screen-hidden');
+        appShell.classList.remove('app-shell-hidden');
+
+        setTimeout(function() {
+          bootScreen.remove();
+        }, 500);
+      }, bootDurationMs);
+    })();
   </script>
 </body>
 </html>
