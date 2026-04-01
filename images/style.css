@@ -490,15 +490,6 @@ main > section { padding: 36px 16px; }
   background: #060d06;
   font-family: 'Share Tech Mono', monospace;
 }
-.card-desc {
-  padding: 3px 6px;
-  font-size: 11px;
-  color: var(--green);
-  background: #060d06;
-  font-family: 'Share Tech Mono', monospace;
-  text-align: center;
-  letter-spacing: 1px;
-}
 
 /* ── PANEL (Notepad style) ──────────────────────────── */
 .panel {
