@@ -199,6 +199,7 @@
       var bootNoiseSource = null;
       var bootNoiseGain = null;
       var bootNoiseStarted = false;
+      var lastTypeTickAt = 0;
 
       if (hasBooted) {
         appShell.classList.remove('app-shell-hidden');
@@ -267,6 +268,48 @@
         bootNoiseStarted = false;
       }
 
+      function playBootTone(frequency, durationMs, volume, type) {
+        if (!audioContext) return;
+
+        var now = audioContext.currentTime;
+        var oscillator = audioContext.createOscillator();
+        var gain = audioContext.createGain();
+        var filter = audioContext.createBiquadFilter();
+
+        oscillator.type = type || 'square';
+        oscillator.frequency.setValueAtTime(frequency, now);
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(Math.max(500, frequency), now);
+        filter.Q.value = 2.5;
+
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.linearRampToValueAtTime(volume, now + 0.008);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + durationMs / 1000);
+
+        oscillator.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioContext.destination);
+        oscillator.start(now);
+        oscillator.stop(now + durationMs / 1000 + 0.02);
+      }
+
+      function playTypingTick(charIndex, character) {
+        if (!audioContext || character === ' ') return;
+
+        var nowMs = performance.now();
+        if (nowMs - lastTypeTickAt < 34) return;
+        lastTypeTickAt = nowMs;
+
+        var base = character === '[' || character === ']' ? 1180 : 940;
+        var offset = (charIndex % 4) * 45;
+        playBootTone(base + offset, 42, 0.018, 'square');
+      }
+
+      function playLineCompleteTone(index) {
+        if (!audioContext) return;
+        playBootTone(520 + index * 18, 110, 0.022, 'sine');
+      }
+
       ['pointerdown', 'keydown', 'touchstart'].forEach(function(evtName) {
         window.addEventListener(evtName, startBootNoise, { once: true });
       });
@@ -313,9 +356,11 @@
         var typer = setInterval(function() {
           i += 1;
           line.textContent = text.slice(0, i);
+          playTypingTick(i, text.charAt(i - 1));
 
           if (i >= text.length) {
             clearInterval(typer);
+            playLineCompleteTone(index);
 
             if (index === bootLines.length - 1) {
               var cursor = document.createElement('span');
