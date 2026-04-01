@@ -232,25 +232,33 @@
 
         var now = audioContext.currentTime;
         var oscillator = audioContext.createOscillator();
+        var secondaryOscillator = audioContext.createOscillator();
         var gain = audioContext.createGain();
         var filter = audioContext.createBiquadFilter();
 
         oscillator.type = type || 'square';
+        secondaryOscillator.type = 'square';
         oscillator.frequency.setValueAtTime(frequency, now);
-  oscillator.frequency.exponentialRampToValueAtTime(Math.max(120, frequency * 0.9), now + durationMs / 1000);
-  filter.type = oscillator.type === 'triangle' ? 'bandpass' : 'lowpass';
-  filter.frequency.setValueAtTime(Math.max(700, frequency * 1.6), now);
-  filter.Q.value = oscillator.type === 'triangle' ? 2.2 : 1.4;
+        secondaryOscillator.frequency.setValueAtTime(Math.max(90, frequency * 0.48), now);
+        oscillator.frequency.exponentialRampToValueAtTime(Math.max(120, frequency * 0.86), now + durationMs / 1000);
+        secondaryOscillator.frequency.exponentialRampToValueAtTime(Math.max(70, frequency * 0.4), now + durationMs / 1000);
+        filter.type = oscillator.type === 'triangle' ? 'bandpass' : 'lowpass';
+        filter.frequency.setValueAtTime(Math.max(560, frequency * 1.15), now);
+        filter.Q.value = oscillator.type === 'triangle' ? 3.1 : 1.1;
 
         gain.gain.setValueAtTime(0.0001, now);
-        gain.gain.linearRampToValueAtTime(volume, now + 0.008);
+        gain.gain.linearRampToValueAtTime(volume, now + 0.003);
+        gain.gain.linearRampToValueAtTime(volume * 0.55, now + 0.018);
         gain.gain.exponentialRampToValueAtTime(0.0001, now + durationMs / 1000);
 
         oscillator.connect(filter);
+        secondaryOscillator.connect(filter);
         filter.connect(gain);
         gain.connect(audioContext.destination);
         oscillator.start(now);
+        secondaryOscillator.start(now);
         oscillator.stop(now + durationMs / 1000 + 0.02);
+        secondaryOscillator.stop(now + durationMs / 1000 + 0.02);
       }
 
       function playTypingTick(charIndex, character) {
@@ -260,19 +268,19 @@
         if (nowMs - lastTypeTickAt < 34) return;
         lastTypeTickAt = nowMs;
 
-        var base = /[\[\]0-9]/.test(character) ? 820 : 690;
-        var offset = (charIndex % 3) * 32;
-        playBootTone(base + offset, 34, 0.016, 'square');
+        var base = /[\[\]0-9]/.test(character) ? 640 : 520;
+        var offset = (charIndex % 3) * 24;
+        playBootTone(base + offset, 28, 0.018, 'square');
       }
 
       function playLineCompleteTone(index) {
         if (!audioContext) return;
-        playBootTone(420 + index * 14, 135, 0.018, 'triangle');
+        playBootTone(310 + index * 11, 92, 0.022, 'triangle');
       }
 
       var bootLines = bootScreen.querySelectorAll('.boot-line');
       var typeSpeedMs = 24;
-      var linePauseMs = 2500;
+      var linePauseMs = 2000;
       var postBootPauseMs = 260;
 
       document.body.classList.add('is-booting');
