@@ -250,9 +250,9 @@ body.is-booting {
 .boot-audio-prompt {
   margin-top: 18px;
   font-family: 'Share Tech Mono', monospace;
-  font-size: 12px;
+  font-size: 11px;
   color: var(--amber);
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-align: center;
   text-shadow: 0 0 10px rgba(15,170,68,0.35);
   animation: bootPromptBlink 1s steps(2) infinite;

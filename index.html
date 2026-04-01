@@ -32,7 +32,7 @@
           <p class="boot-line" data-text="Memory check: 640K... [OK]"></p>
           <p class="boot-line" data-text="System ready."></p>
           <p class="boot-line" data-text="> WELCOME TO C.B PHOTOGRAPHY"></p>
-          <p id="boot-audio-prompt" class="boot-audio-prompt">[ CLICK OR PRESS ANY KEY TO START SYSTEM ]</p>
+          <p id="boot-audio-prompt" class="boot-audio-prompt">[ SOUND ENABLES AFTER FIRST CLICK OR KEY ]</p>
         </div>
       </div>
     </header>
@@ -199,7 +199,6 @@
       var hasBooted = sessionStorage.getItem('cbBootShown') === '1';
       var audioContext = null;
       var lastTypeTickAt = 0;
-      var bootStarted = false;
 
       if (hasBooted) {
         appShell.classList.remove('app-shell-hidden');
@@ -282,22 +281,11 @@
         line.classList.remove('boot-line-visible');
       });
 
-      function beginBootSequence() {
-        if (bootStarted) return;
-        bootStarted = true;
-
+      function unlockAudio() {
+        ensureAudioContext();
         if (bootPrompt) {
           bootPrompt.classList.add('boot-audio-prompt-hidden');
         }
-
-        setTimeout(function() {
-          typeLine(0);
-        }, 140);
-      }
-
-      function unlockAudioAndStart() {
-        ensureAudioContext();
-        beginBootSequence();
       }
 
       function finishBoot() {
@@ -351,15 +339,21 @@
 
       if (!AudioCtx) {
         if (bootPrompt) {
-          bootPrompt.textContent = '[ STARTING SYSTEM ]';
+          bootPrompt.classList.add('boot-audio-prompt-hidden');
         }
-        beginBootSequence();
+        setTimeout(function() {
+          typeLine(0);
+        }, 140);
         return;
       }
 
       ['pointerdown', 'keydown', 'touchstart'].forEach(function(evtName) {
-        window.addEventListener(evtName, unlockAudioAndStart, { once: true });
+        window.addEventListener(evtName, unlockAudio, { once: true });
       });
+
+      setTimeout(function() {
+        typeLine(0);
+      }, 140);
     })();
   </script>
 </body>
