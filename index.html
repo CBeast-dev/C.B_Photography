@@ -270,12 +270,6 @@
         playBootTone(420 + index * 14, 135, 0.018, 'triangle');
       }
 
-      ['pointerdown', 'keydown', 'touchstart'].forEach(function(evtName) {
-        window.addEventListener(evtName, ensureAudioContext, { once: true });
-      });
-
-      ensureAudioContext();
-
       var bootLines = bootScreen.querySelectorAll('.boot-line');
       var typeSpeedMs = 24;
       var linePauseMs = 2500;
@@ -352,14 +346,10 @@
 
       if (!AudioCtx) {
         clickScreenButton.addEventListener('click', beginBootSequence, { once: true });
-        window.addEventListener('keydown', beginBootSequence, { once: true });
         return;
       }
 
       clickScreenButton.addEventListener('click', beginBootSequence, { once: true });
-      ['keydown', 'touchstart'].forEach(function(evtName) {
-        window.addEventListener(evtName, beginBootSequence, { once: true });
-      });
     })();
   </script>
 </body>
