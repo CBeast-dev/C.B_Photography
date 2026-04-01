@@ -26,12 +26,12 @@
           </div>
         </div>
         <div class="terminal-body">
-          <p class="boot-line">Initializing C.B_PHOTOGRAPHY.SYS...</p>
-          <p class="boot-line">Loading visual modules&#8230; <span class="ok">[OK]</span></p>
-          <p class="boot-line">Calibrating aperture drivers&#8230; <span class="ok">[OK]</span></p>
-          <p class="boot-line">Memory check: 640K&#8230; <span class="ok">[OK]</span></p>
-          <p class="boot-line">System ready.</p>
-          <p class="boot-line">&gt; WELCOME TO <strong>C.B PHOTOGRAPHY</strong><span class="cursor">_</span></p>
+          <p class="boot-line" data-text="Initializing C.B_PHOTOGRAPHY.SYS..."></p>
+          <p class="boot-line" data-text="Loading visual modules... [OK]"></p>
+          <p class="boot-line" data-text="Calibrating aperture drivers... [OK]"></p>
+          <p class="boot-line" data-text="Memory check: 640K... [OK]"></p>
+          <p class="boot-line" data-text="System ready."></p>
+          <p class="boot-line" data-text="> WELCOME TO C.B PHOTOGRAPHY"></p>
         </div>
       </div>
     </header>
@@ -207,20 +207,18 @@
       }
 
       var bootLines = bootScreen.querySelectorAll('.boot-line');
-      var lastBootLine = bootLines[bootLines.length - 1];
+      var typeSpeedMs = 24;
+      var linePauseMs = 1000;
+      var postBootPauseMs = 260;
 
       document.body.classList.add('is-booting');
 
-      function toMilliseconds(value) {
-        if (!value) return 0;
-        if (value.indexOf('ms') !== -1) return parseFloat(value);
-        return parseFloat(value) * 1000;
-      }
+      bootLines.forEach(function(line) {
+        line.textContent = '';
+        line.classList.remove('boot-line-visible');
+      });
 
-      var lineStyle = getComputedStyle(lastBootLine);
-      var bootDurationMs = toMilliseconds(lineStyle.animationDelay) + toMilliseconds(lineStyle.animationDuration) + 220;
-
-      setTimeout(function() {
+      function finishBoot() {
         bootScreen.classList.add('boot-screen-hidden');
         appShell.classList.remove('app-shell-hidden');
         sessionStorage.setItem('cbBootShown', '1');
@@ -230,7 +228,42 @@
         setTimeout(function() {
           bootScreen.remove();
         }, 500);
-      }, bootDurationMs);
+      }
+
+      function typeLine(index) {
+        if (index >= bootLines.length) {
+          setTimeout(finishBoot, postBootPauseMs);
+          return;
+        }
+
+        var line = bootLines[index];
+        var text = line.getAttribute('data-text') || '';
+        var i = 0;
+
+        line.classList.add('boot-line-visible');
+
+        var typer = setInterval(function() {
+          i += 1;
+          line.textContent = text.slice(0, i);
+
+          if (i >= text.length) {
+            clearInterval(typer);
+
+            if (index === bootLines.length - 1) {
+              var cursor = document.createElement('span');
+              cursor.className = 'cursor';
+              cursor.textContent = '_';
+              line.appendChild(cursor);
+            }
+
+            setTimeout(function() {
+              typeLine(index + 1);
+            }, linePauseMs);
+          }
+        }, typeSpeedMs);
+      }
+
+      typeLine(0);
     })();
   </script>
 </body>
