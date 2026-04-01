@@ -46,6 +46,36 @@ body {
   overflow-x: hidden;
 }
 
+.click-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 10002;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(29,224,0,0.08), transparent 45%),
+    var(--bg);
+  transition: opacity 0.3s ease;
+}
+
+.click-screen-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.click-screen-button {
+  border: 2px solid var(--green);
+  background: rgba(2, 4, 2, 0.92);
+  color: var(--green);
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(28px, 5vw, 56px);
+  letter-spacing: 0.32em;
+  padding: 18px 28px 18px 42px;
+  box-shadow: 0 0 28px rgba(29,224,0,0.2), inset 0 0 18px rgba(29,224,0,0.08);
+  text-shadow: var(--glow);
+}
+
 .boot-screen {
   position: fixed;
   inset: 0;
@@ -245,26 +275,6 @@ body.is-booting {
 
 .boot-line.boot-line-visible {
   opacity: 1;
-}
-
-.boot-audio-prompt {
-  margin-top: 18px;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 11px;
-  color: var(--amber);
-  letter-spacing: 0.1em;
-  text-align: center;
-  text-shadow: 0 0 10px rgba(15,170,68,0.35);
-  animation: bootPromptBlink 1s steps(2) infinite;
-}
-
-.boot-audio-prompt-hidden {
-  display: none;
-}
-
-@keyframes bootPromptBlink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
 }
 
 .ok    { color: var(--green); font-weight: bold; }

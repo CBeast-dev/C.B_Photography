@@ -7,7 +7,11 @@
   <link rel="stylesheet" href="images/style.css">
 </head>
 <body>
-  <div id="boot-screen" class="boot-screen">
+  <div id="click-screen" class="click-screen">
+    <button id="click-screen-button" class="click-screen-button" type="button">CLICK</button>
+  </div>
+
+  <div id="boot-screen" class="boot-screen boot-screen-hidden">
     <header class="crt-header boot-header">
       <div class="bios-bar">
         <span>CB-PHOTO BIOS v2.6 // COPYRIGHT C.B PHOTOGRAPHY 1996-2026</span>
@@ -32,7 +36,6 @@
           <p class="boot-line" data-text="Memory check: 640K... [OK]"></p>
           <p class="boot-line" data-text="System ready."></p>
           <p class="boot-line" data-text="> WELCOME TO C.B PHOTOGRAPHY"></p>
-          <p id="boot-audio-prompt" class="boot-audio-prompt">[ SOUND ENABLES AFTER FIRST CLICK OR KEY ]</p>
         </div>
       </div>
     </header>
@@ -193,15 +196,18 @@
     });
 
     (function startBootSequence() {
+      var clickScreen = document.getElementById('click-screen');
+      var clickScreenButton = document.getElementById('click-screen-button');
       var bootScreen = document.getElementById('boot-screen');
       var appShell = document.getElementById('app-shell');
-      var bootPrompt = document.getElementById('boot-audio-prompt');
       var hasBooted = sessionStorage.getItem('cbBootShown') === '1';
       var audioContext = null;
       var lastTypeTickAt = 0;
+      var bootStarted = false;
 
       if (hasBooted) {
         appShell.classList.remove('app-shell-hidden');
+        clickScreen.remove();
         bootScreen.remove();
         window.scrollTo(0, 0);
         return;
@@ -282,11 +288,17 @@
         line.classList.remove('boot-line-visible');
       });
 
-      function unlockAudio() {
+      function beginBootSequence() {
+        if (bootStarted) return;
+        bootStarted = true;
         ensureAudioContext();
-        if (bootPrompt) {
-          bootPrompt.classList.add('boot-audio-prompt-hidden');
-        }
+        clickScreen.classList.add('click-screen-hidden');
+        bootScreen.classList.remove('boot-screen-hidden');
+
+        setTimeout(function() {
+          clickScreen.remove();
+          typeLine(0);
+        }, 180);
       }
 
       function finishBoot() {
@@ -339,22 +351,15 @@
       var AudioCtx = window.AudioContext || window.webkitAudioContext;
 
       if (!AudioCtx) {
-        if (bootPrompt) {
-          bootPrompt.classList.add('boot-audio-prompt-hidden');
-        }
-        setTimeout(function() {
-          typeLine(0);
-        }, 140);
+        clickScreenButton.addEventListener('click', beginBootSequence, { once: true });
+        window.addEventListener('keydown', beginBootSequence, { once: true });
         return;
       }
 
-      ['pointerdown', 'keydown', 'touchstart'].forEach(function(evtName) {
-        window.addEventListener(evtName, unlockAudio, { once: true });
+      clickScreenButton.addEventListener('click', beginBootSequence, { once: true });
+      ['keydown', 'touchstart'].forEach(function(evtName) {
+        window.addEventListener(evtName, beginBootSequence, { once: true });
       });
-
-      setTimeout(function() {
-        typeLine(0);
-      }, 140);
     })();
   </script>
 </body>
