@@ -63,12 +63,12 @@ body {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.12;
+  opacity: 0.22;
   background-image:
-    radial-gradient(circle at 20% 30%, rgba(29,224,0,0.2) 0 1px, transparent 1px 100%),
-    radial-gradient(circle at 80% 70%, rgba(29,224,0,0.2) 0 1px, transparent 1px 100%);
-  background-size: 3px 3px, 4px 4px;
-  animation: bootNoiseShift 220ms steps(3) infinite;
+    radial-gradient(circle at 20% 30%, rgba(29,224,0,0.32) 0 1px, transparent 1px 100%),
+    radial-gradient(circle at 80% 70%, rgba(29,224,0,0.30) 0 1px, transparent 1px 100%);
+  background-size: 2px 2px, 3px 3px;
+  animation: bootNoiseShift 120ms steps(4) infinite;
 }
 
 .boot-screen::after {
@@ -76,15 +76,15 @@ body {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.08;
+  opacity: 0.15;
   background: linear-gradient(
     to bottom,
-    rgba(29,224,0,0.06),
+    rgba(29,224,0,0.12),
     rgba(0,0,0,0) 20%,
-    rgba(29,224,0,0.03) 50%,
+    rgba(29,224,0,0.08) 50%,
     rgba(0,0,0,0) 80%
   );
-  animation: bootFlicker 1400ms steps(2) infinite;
+  animation: bootFlicker 800ms steps(2) infinite;
 }
 
 .boot-screen-hidden {
@@ -104,18 +104,18 @@ body {
 
 @keyframes bootNoiseShift {
   0% { transform: translate(0, 0); }
-  25% { transform: translate(1px, -1px); }
-  50% { transform: translate(-1px, 1px); }
-  75% { transform: translate(1px, 1px); }
+  25% { transform: translate(2px, -1px); }
+  50% { transform: translate(-2px, 2px); }
+  75% { transform: translate(2px, 1px); }
   100% { transform: translate(0, 0); }
 }
 
 @keyframes bootFlicker {
-  0%, 100% { opacity: 0.08; }
-  20% { opacity: 0.13; }
-  40% { opacity: 0.06; }
-  60% { opacity: 0.11; }
-  80% { opacity: 0.07; }
+  0%, 100% { opacity: 0.12; }
+  20% { opacity: 0.24; }
+  40% { opacity: 0.09; }
+  60% { opacity: 0.20; }
+  80% { opacity: 0.11; }
 }
 
 .boot-header .terminal-window {

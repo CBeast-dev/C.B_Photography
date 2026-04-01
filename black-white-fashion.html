@@ -111,25 +111,39 @@
       pointer-events: none;
       opacity: 0;
       background-image:
-        radial-gradient(circle at 20% 35%, rgba(29,224,0,0.22) 0 1px, transparent 1px 100%),
-        radial-gradient(circle at 80% 70%, rgba(29,224,0,0.18) 0 1px, transparent 1px 100%),
-        repeating-linear-gradient(to bottom, rgba(0,0,0,0.18) 0px, rgba(0,0,0,0.18) 1px, transparent 1px, transparent 3px);
-      background-size: 3px 3px, 4px 4px, 100% 3px;
-      mix-blend-mode: screen;
+        radial-gradient(circle at 20% 35%, rgba(200, 230, 255, 0.18) 0 1px, transparent 1px 100%),
+        radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.14) 0 1px, transparent 1px 100%),
+        repeating-linear-gradient(to bottom, rgba(0,0,0,0.45) 0px, rgba(0,0,0,0.45) 1px, transparent 1px, transparent 2px);
+      background-size: 2px 2px, 3px 3px, 100% 2px;
+    }
+
+    .file-open-status {
+      position: fixed;
+      left: 16px;
+      bottom: 64px;
+      z-index: 10003;
+      pointer-events: none;
+      opacity: 0;
+      color: #c6d6df;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-shadow: 0 0 10px rgba(255,255,255,0.35);
     }
 
     body.file-opening .file-open-noise {
-      opacity: 0.35;
-      animation: fileNoiseMove 180ms steps(2) infinite;
+      opacity: 0.58;
+      animation: fileNoiseMove 95ms steps(3) infinite;
     }
 
     body.file-opening .gallery-panel,
     body.file-opening .gallery-header {
-      animation: fileGlitchShift 220ms steps(2) 5;
+      animation: fileGlitchShift 140ms steps(2) 10;
     }
 
     body.file-opening .gallery-panel {
       position: relative;
+      filter: contrast(1.15) brightness(0.86) saturate(0.2);
     }
 
     body.file-opening .gallery-panel::before,
@@ -138,34 +152,44 @@
       position: absolute;
       inset: 0;
       pointer-events: none;
-      opacity: 0.18;
+      opacity: 0.26;
     }
 
     body.file-opening .gallery-panel::before {
-      background: rgba(255, 0, 0, 0.08);
-      transform: translateX(-2px);
+      background: rgba(170, 200, 255, 0.12);
+      transform: translateX(-3px);
     }
 
     body.file-opening .gallery-panel::after {
-      background: rgba(0, 220, 255, 0.08);
-      transform: translateX(2px);
+      background: rgba(255, 255, 255, 0.10);
+      transform: translateX(3px);
+    }
+
+    body.file-opening .file-open-status {
+      opacity: 1;
+      animation: fileStatusBlink 220ms steps(2) infinite;
     }
 
     @keyframes fileNoiseMove {
       0% { transform: translate(0, 0); }
-      25% { transform: translate(1px, -1px); }
-      50% { transform: translate(-1px, 1px); }
-      75% { transform: translate(1px, 1px); }
+      25% { transform: translate(2px, -1px); }
+      50% { transform: translate(-2px, 2px); }
+      75% { transform: translate(2px, 1px); }
       100% { transform: translate(0, 0); }
     }
 
     @keyframes fileGlitchShift {
       0% { transform: translate(0, 0); }
-      20% { transform: translate(-2px, 0); }
-      40% { transform: translate(2px, 1px); }
-      60% { transform: translate(-1px, -1px); }
-      80% { transform: translate(1px, 0); }
+      20% { transform: translate(-3px, 1px); }
+      40% { transform: translate(3px, -1px); }
+      60% { transform: translate(-2px, 2px); }
+      80% { transform: translate(2px, -1px); }
       100% { transform: translate(0, 0); }
+    }
+
+    @keyframes fileStatusBlink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
     }
 
   </style>
@@ -173,6 +197,7 @@
 <body>
   <div class="scanlines"></div>
   <div class="file-open-noise" aria-hidden="true"></div>
+  <div class="file-open-status" aria-hidden="true">CAM_FEED_INIT // SIGNAL_UNSTABLE // AUDIO_NOISE: HIGH</div>
 
   <div class="gallery-header">
     <a href="index.html" class="back-btn">&#8592; [ BACK ]</a>
@@ -253,7 +278,7 @@
     document.body.classList.add('file-opening');
     setTimeout(function() {
       document.body.classList.remove('file-opening');
-    }, 950);
+    }, 1350);
   </script>
 </body>
 </html>
