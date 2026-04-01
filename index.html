@@ -133,10 +133,10 @@
       <div class="panel">
         <div class="panel-titlebar"><span>New Message &#8212; CB_MAIL v1.0</span></div>
         <div class="panel-body">
-          <form class="contact-form" onsubmit="return false;">
-            <div class="form-row"><label>FROM:</label><input type="email" placeholder="your_name@domain.com" autocomplete="email"></div>
-            <div class="form-row"><label>SUBJ:</label><input type="text" placeholder="RE: Photography Inquiry" autocomplete="off"></div>
-            <div class="form-row message-row"><label>MSG:</label><textarea placeholder="Type your message here...&#10;&gt; _"></textarea></div>
+          <form class="contact-form" onsubmit="sendMail(event);">
+            <div class="form-row"><label>FROM:</label><input id="mail-from" type="email" placeholder="your_name@domain.com" autocomplete="email" required></div>
+            <div class="form-row"><label>SUBJ:</label><input id="mail-subj" type="text" placeholder="RE: Photography Inquiry" autocomplete="off" required></div>
+            <div class="form-row message-row"><label>MSG:</label><textarea id="mail-msg" placeholder="Type your message here...&#10;&gt; _" required></textarea></div>
             <div class="form-actions">
               <button type="submit" class="crt-btn">[ SEND MESSAGE ]</button>
               <button type="reset" class="crt-btn secondary">[ CLEAR ]</button>
@@ -159,6 +159,14 @@
   </footer>
 
   <script>
+    function sendMail(e) {
+      e.preventDefault();
+      var from = document.getElementById('mail-from').value;
+      var subj = encodeURIComponent(document.getElementById('mail-subj').value);
+      var msg  = encodeURIComponent('From: ' + from + '\n\n' + document.getElementById('mail-msg').value);
+      window.location.href = 'mailto:Carlos.E.Beas4@gmail.com?subject=' + subj + '&body=' + msg;
+    }
+
     function updateClock() {
       var now = new Date();
       var h = String(now.getHours()).padStart(2, '0');
