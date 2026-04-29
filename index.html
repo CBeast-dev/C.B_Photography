@@ -434,6 +434,16 @@
       clickScreenButton.addEventListener('click', beginBootSequence, { once: true });
     })();
 
+    function removeStaleGlitchOverlays() {
+      document.querySelectorAll('.glitch-overlay').forEach(function(el) {
+        el.remove();
+      });
+    }
+
+    window.addEventListener('pageshow', function(event) {
+      removeStaleGlitchOverlays();
+    });
+
     function showGlitch(url) {
       const overlay = document.createElement('div');
       overlay.className = 'glitch-overlay';
