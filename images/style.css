@@ -534,7 +534,6 @@ body.is-booting {
   font-family: 'Orbitron', 'VT323', monospace;
   font-size: 28px;
   color: var(--text);
-  text-shadow: 0 0 10px rgba(15,68,170,0.4);
   line-height: 1;
   font-weight: 700;
 }
