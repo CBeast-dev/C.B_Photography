@@ -878,21 +878,21 @@ main > section { padding: 36px 16px; }
   background: repeating-linear-gradient(
     to bottom,
     transparent 0px,
-    transparent 2px,
-    rgba(0,224,255,0.8) 2px,
-    rgba(0,224,255,0.8) 4px,
     transparent 4px,
-    transparent 6px,
-    rgba(255,255,255,0.6) 6px,
-    rgba(255,255,255,0.6) 8px
+    rgba(0,224,255,0.9) 4px,
+    rgba(0,224,255,0.9) 8px,
+    transparent 8px,
+    transparent 12px,
+    rgba(255,255,255,0.8) 12px,
+    rgba(255,255,255,0.8) 16px
   );
-  animation: screen-tear 0.3s ease-in-out infinite;
+  animation: screen-tear 0.6s ease-in-out infinite;
 }
 
 @keyframes screen-tear {
   0% { transform: translateY(0) scaleY(1); }
-  25% { transform: translateY(-5px) scaleY(1.02); }
-  50% { transform: translateY(5px) scaleY(0.98); }
-  75% { transform: translateY(-3px) scaleY(1.01); }
+  25% { transform: translateY(-8px) scaleY(1.05); }
+  50% { transform: translateY(8px) scaleY(0.95); }
+  75% { transform: translateY(-4px) scaleY(1.02); }
   100% { transform: translateY(0) scaleY(1); }
 }
