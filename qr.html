@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code — C.B Photography</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=Orbitron:wght@400;700;900&display=swap');
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: #020204;
+      color: #a8f4ff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 24px;
+      text-align: center;
+      position: relative;
+    }
+    .card {
+      background: rgba(2, 4, 9, 0.95);
+      border: 1px solid #0d0d26;
+      box-shadow: 0 0 30px rgba(0, 224, 255, 0.18);
+      border-radius: 18px;
+      padding: 24px;
+      max-width: 420px;
+      width: 100%;
+    }
+    h1 { margin-bottom: 12px; font-size: 24px; letter-spacing: 0.08em; color: #00e0ff; }
+    .back-btn {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      padding: 6px 16px;
+      border: 2px solid #00e0ff;
+      color: #00e0ff;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 13px;
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      background: transparent;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .back-btn:hover { background: #00e0ff; color: #020204; }
+    #qrcode { display: inline-block; }
+    .url { word-break: break-all; margin-top: 18px; font-size: 13px; color: #00e0ff; letter-spacing: 0.08em; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <a href="index.html" class="back-btn">&#8592; [ BACK ]</a>
+    <h1>SCAN TO OPEN THE SITE</h1>
+    <div id="qrcode"></div>
+    <div class="url">https://cbeast-dev.github.io/C.B_Photography/</div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
+    const qr = new QRCode(document.getElementById('qrcode'), {
+      text: 'https://cbeast-dev.github.io/C.B_Photography/',
+      width: 256,
+      height: 256,
+      colorDark : '#00e0ff',
+      colorLight : '#020204',
+      correctLevel : QRCode.CorrectLevel.H
+    });
+  </script>
+</body>
+</html>
