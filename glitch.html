@@ -138,7 +138,7 @@
     <a href="index.html#portfolio" class="back-btn">&#8592; [ BACK ]</a>
     <div class="terminal-window" style="margin-bottom:12px;">
       <div class="terminal-titlebar">
-        <span>C:\PHOTOS\GLITCH\ - 2 ITEMS</span>
+        <span>C:\PHOTOS\GLITCH\ - 4 ITEMS</span>
         <div class="win95-buttons">
           <button>_</button><button>&#9633;</button><button>&#x2715;</button>
         </div>
@@ -150,13 +150,21 @@
     <div class="panel">
       <div class="panel-titlebar"><span>Glitch - Gallery View</span></div>
       <div class="gallery-grid">
-        <div class="gallery-item" onclick="openLightbox('glitch/glitch3-2.jpg', 'glitch3-2.jpg')">
-          <img src="glitch/glitch3-2.jpg" alt="Glitch Photo 1">
-          <div class="gallery-item-footer"><span>glitch3-2.jpg</span><span>GLITCH</span></div>
+        <div class="gallery-item" onclick="openLightbox('glitch/Glitching-Out_1.jpg', 'Glitching-Out_1.jpg')">
+          <img src="glitch/Glitching-Out_1.jpg" alt="Glitching Out 1">
+          <div class="gallery-item-footer"><span>Glitching-Out_1.jpg</span><span>GLITCH</span></div>
         </div>
-        <div class="gallery-item" onclick="openLightbox('glitch/Glitch-phot1.jpg', 'Glitch-phot1.jpg')">
-          <img src="glitch/Glitch-phot1.jpg" alt="Glitch Photo 2">
-          <div class="gallery-item-footer"><span>Glitch-phot1.jpg</span><span>GLITCH</span></div>
+        <div class="gallery-item" onclick="openLightbox('glitch/Glitching-Out_2.jpg', 'Glitching-Out_2.jpg')">
+          <img src="glitch/Glitching-Out_2.jpg" alt="Glitching Out 2">
+          <div class="gallery-item-footer"><span>Glitching-Out_2.jpg</span><span>GLITCH</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('glitch/Glitching-Out_3.jpg', 'Glitching-Out_3.jpg')">
+          <img src="glitch/Glitching-Out_3.jpg" alt="Glitching Out 3">
+          <div class="gallery-item-footer"><span>Glitching-Out_3.jpg</span><span>GLITCH</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('glitch/Glitching-Out_4.jpg', 'Glitching-Out_4.jpg')">
+          <img src="glitch/Glitching-Out_4.jpg" alt="Glitching Out 4">
+          <div class="gallery-item-footer"><span>Glitching-Out_4.jpg</span><span>GLITCH</span></div>
         </div>
       </div>
     </div>
@@ -186,16 +194,40 @@
     updateClock();
     setInterval(updateClock, 1000);
 
+    var lightboxStatePushed = false;
+    if (!history.state) {
+      history.replaceState({ initialPage: true }, '', window.location.href);
+    }
     function openLightbox(src, caption) {
+      var lightbox = document.getElementById('lightbox');
       document.getElementById('lightbox-img').src = src;
       document.getElementById('lightbox-caption').textContent = caption;
-      document.getElementById('lightbox').classList.add('active');
-    }
-    function closeLightbox(e) {
-      if (!e || e.target !== document.getElementById('lightbox-img')) {
-        document.getElementById('lightbox').classList.remove('active');
+      lightbox.classList.add('active');
+      if (!lightboxStatePushed) {
+        history.pushState({ lightboxOpen: true }, '', window.location.href);
+        lightboxStatePushed = true;
       }
     }
+    function closeLightbox(e) {
+      if (e && e.type === 'popstate') {
+        document.getElementById('lightbox').classList.remove('active');
+        lightboxStatePushed = false;
+        return;
+      }
+      if (!e || e.target !== document.getElementById('lightbox-img')) {
+        var lightbox = document.getElementById('lightbox');
+        lightbox.classList.remove('active');
+        if (lightboxStatePushed) {
+          lightboxStatePushed = false;
+          history.back();
+        }
+      }
+    }
+    window.addEventListener('popstate', function() {
+      if (document.getElementById('lightbox').classList.contains('active')) {
+        closeLightbox({ type: 'popstate' });
+      }
+    });
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') closeLightbox();
     });

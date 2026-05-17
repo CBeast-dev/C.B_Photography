@@ -874,10 +874,32 @@ main > section { padding: 36px 16px; }
   animation: screen-tear 0.6s ease-in-out infinite;
 }
 
-@keyframes screen-tear {
-  0% { transform: translateY(0) scaleY(1); }
-  25% { transform: translateY(-8px) scaleY(1.05); }
-  50% { transform: translateY(8px) scaleY(0.95); }
-  75% { transform: translateY(-4px) scaleY(1.02); }
-  100% { transform: translateY(0) scaleY(1); }
-}
+  .lightbox {
+    opacity: 0;
+    transition: opacity 0.22s ease;
+  }
+
+  .lightbox.active {
+    opacity: 1;
+  }
+
+  .lightbox img {
+    transform: scale(0.96);
+    opacity: 0;
+    transition: transform 0.22s ease, opacity 0.22s ease;
+  }
+
+  .lightbox.active img {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  .gallery-item img {
+    transition: transform 0.18s ease, filter 0.18s ease;
+  }
+
+  .gallery-item:hover img {
+    transform: scale(1.03);
+    filter: brightness(1.04);
+  }
+
