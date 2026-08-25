@@ -171,9 +171,16 @@
   <script>
     var portfolioUiSound = new Audio('Sounds/ui-sound-16.mp3');
     portfolioUiSound.volume = 1;
+    function removeStaleGlitchOverlays() {
+      document.querySelectorAll('.glitch-overlay').forEach(function(el) {
+        el.remove();
+      });
+    }
+
     function playPortfolioUiSound(link, event) {
       event.preventDefault();
       var target = link.href;
+      removeStaleGlitchOverlays();
       portfolioUiSound.currentTime = 0;
       portfolioUiSound.play().catch(function() {});
       var overlay = document.createElement('div');
@@ -200,6 +207,7 @@
     }
     function openLightbox(src, caption) {
       var lightbox = document.getElementById('lightbox');
+      if (!lightbox) return;
       document.getElementById('lightbox-img').src = src;
       document.getElementById('lightbox-caption').textContent = caption;
       lightbox.classList.add('active');
@@ -209,13 +217,14 @@
       }
     }
     function closeLightbox(e) {
+      var lightbox = document.getElementById('lightbox');
+      if (!lightbox) return;
       if (e && e.type === 'popstate') {
-        document.getElementById('lightbox').classList.remove('active');
+        lightbox.classList.remove('active');
         lightboxStatePushed = false;
         return;
       }
       if (!e || e.target !== document.getElementById('lightbox-img')) {
-        var lightbox = document.getElementById('lightbox');
         lightbox.classList.remove('active');
         if (lightboxStatePushed) {
           lightboxStatePushed = false;
@@ -224,7 +233,7 @@
       }
     }
     window.addEventListener('popstate', function() {
-      if (document.getElementById('lightbox').classList.contains('active')) {
+      if (document.getElementById('lightbox') && document.getElementById('lightbox').classList.contains('active')) {
         closeLightbox({ type: 'popstate' });
       }
     });

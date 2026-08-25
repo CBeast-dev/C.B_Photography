@@ -51,12 +51,20 @@
     }
 
     function showGlitch(url) {
+      removeStaleGlitchOverlays();
       portfolioUiSound.currentTime = 0;
       portfolioUiSound.play().catch(function() {});
       showTransition(url);
     }
 
+    function removeStaleGlitchOverlays() {
+      document.querySelectorAll('.glitch-overlay').forEach(function(el) {
+        el.remove();
+      });
+    }
+
     function showTransition(url) {
+      removeStaleGlitchOverlays();
       var overlay = document.createElement('div');
       overlay.className = 'glitch-overlay';
       overlay.innerHTML = '<div class="glitch-lines"></div>';
