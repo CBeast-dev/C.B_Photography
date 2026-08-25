@@ -138,7 +138,7 @@
 <body>
   <div class="scanlines"></div>
   <div class="gallery-header">
-    <a href="index.html#portfolio" class="back-btn" onclick="playPortfolioUiSound(this, event)">&#8592; [ BACK ]</a>
+    <a href="portfolio.html" class="back-btn" onclick="playPortfolioUiSound(this, event)">&#8592; [ BACK ]</a>
     <div class="terminal-window" style="margin-bottom:12px;">
       <div class="terminal-titlebar">
         <span>C:\PHOTOS\STREET_FASHION\ - 7 ITEMS</span>
@@ -214,13 +214,18 @@
       removeStaleGlitchOverlays();
       portfolioUiSound.currentTime = 0;
       portfolioUiSound.play().catch(function() {});
+      showTransition(target);
+    }
+
+    function showTransition(url) {
+      removeStaleGlitchOverlays();
       var overlay = document.createElement('div');
       overlay.className = 'glitch-overlay';
       overlay.innerHTML = '<div class="glitch-lines"></div>';
       document.body.appendChild(overlay);
       overlay.style.display = 'block';
       setTimeout(function() {
-        window.location.href = target;
+        window.location.href = url;
       }, 700);
     }
 

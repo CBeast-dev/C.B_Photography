@@ -63,6 +63,17 @@
       });
     }
 
+    function resetTransitionState() {
+      removeStaleGlitchOverlays();
+      document.body.classList.remove('folder-opening');
+    }
+
+    window.addEventListener('pageshow', resetTransitionState);
+    window.addEventListener('pagehide', resetTransitionState);
+    document.addEventListener('visibilitychange', function() {
+      if (document.visibilityState === 'visible') resetTransitionState();
+    });
+
     function showTransition(url) {
       removeStaleGlitchOverlays();
       var overlay = document.createElement('div');
