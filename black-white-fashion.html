@@ -199,6 +199,17 @@
       });
     }
 
+    function resetTransitionState() {
+      removeStaleGlitchOverlays();
+      document.body.classList.remove('folder-opening');
+    }
+
+    window.addEventListener('pageshow', resetTransitionState);
+    window.addEventListener('pagehide', resetTransitionState);
+    document.addEventListener('visibilitychange', function() {
+      if (document.visibilityState === 'visible') resetTransitionState();
+    });
+
     function playPortfolioUiSound(link, event) {
       event.preventDefault();
       var target = link.href;
@@ -218,6 +229,7 @@
       setTimeout(function() {
         window.location.href = url;
       }, 700);
+      setTimeout(removeStaleGlitchOverlays, 1400);
     }
 
     function updateClock() {
