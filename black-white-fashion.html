@@ -139,7 +139,7 @@
 <body>
   <div class="scanlines"></div>
   <div class="gallery-header">
-    <a href="portfolio.html" class="back-btn" onclick="playPortfolioUiSound(this, event)">&#8592; [ BACK ]</a>
+    <a href="portfolio.html" class="back-btn" onclick="playPortfolioBackSound(this, event)">&#8592; [ BACK ]</a>
     <div class="terminal-window" style="margin-bottom:12px;">
       <div class="terminal-titlebar">
         <span>C:\PHOTOS\BLACK_WHITE_FASHION\ — 4 ITEMS</span>
@@ -210,7 +210,7 @@
       if (document.visibilityState === 'visible') resetTransitionState();
     });
 
-    function playPortfolioUiSound(link, event) {
+    function playPortfolioBackSound(link, event) {
       event.preventDefault();
       var target = link.href;
       removeStaleGlitchOverlays();
