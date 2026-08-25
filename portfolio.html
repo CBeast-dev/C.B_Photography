@@ -28,6 +28,16 @@
     </section>
   </main>
 
+  <footer class="taskbar">
+    <div class="taskbar-start"><button class="start-btn">&#x229E; START</button></div>
+    <div class="taskbar-items"><span class="taskbar-item active">&#128247; PORTFOLIO</span></div>
+    <div class="taskbar-tray">
+      <span>&#128266;</span>
+      <span>&#128225;</span>
+      <span class="tray-time" id="clock">00:00</span>
+    </div>
+  </footer>
+
   <script>
     var portfolioUiSound = new Audio('Sounds/ui-sound-16.mp3');
     portfolioUiSound.volume = 1;
@@ -56,6 +66,13 @@
         window.location.href = url;
       }, 700);
     }
+
+    function updateClock() {
+      var now = new Date();
+      document.getElementById('clock').textContent = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
   </script>
 </body>
 </html>

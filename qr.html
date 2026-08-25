@@ -78,6 +78,51 @@
       50% { transform: translateX(8px); opacity: 0.8; }
       75% { transform: translateX(-5px); opacity: 1; }
     }
+    .taskbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 46px;
+      background: #c0c0c0;
+      border-top: 2px solid #16163a;
+      box-shadow: 0 -2px 0 #030308;
+      display: flex;
+      align-items: center;
+      padding: 3px 6px;
+      gap: 8px;
+      z-index: 200;
+      box-sizing: border-box;
+    }
+    .start-btn {
+      background: #c0c0c0;
+      border: 2px solid;
+      border-color: #16163a #030308 #030308 #16163a;
+      font: bold 13px 'Share Tech Mono', monospace;
+      padding: 3px 12px;
+      color: #00e0ff;
+      letter-spacing: 0.05em;
+    }
+    .taskbar-items { flex: 1; display: flex; gap: 4px; overflow: hidden; }
+    .taskbar-item {
+      background: #06060d;
+      border: 2px inset #0d0d26;
+      font: 12px 'Share Tech Mono', monospace;
+      padding: 2px 10px;
+      color: #a8f4ff;
+      white-space: nowrap;
+    }
+    .taskbar-item.active { border-color: #030308 #16163a #16163a #030308; color: #00e0ff; }
+    .taskbar-tray {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px inset #0d0d26;
+      background: #040409;
+      padding: 2px 8px;
+      font-size: 13px;
+    }
+    .tray-time { font: 13px 'Share Tech Mono', monospace; color: #00e0ff; }
   </style>
 </head>
 <body>
@@ -87,6 +132,15 @@
     <div id="qrcode"></div>
     <div class="url">https://cbeast-dev.github.io/C.B_Photography/</div>
   </div>
+  <footer class="taskbar">
+    <div class="taskbar-start"><button class="start-btn">&#x229E; START</button></div>
+    <div class="taskbar-items"><span class="taskbar-item active">&#128247; SHARE</span></div>
+    <div class="taskbar-tray">
+      <span>&#128266;</span>
+      <span>&#128225;</span>
+      <span class="tray-time" id="clock">00:00</span>
+    </div>
+  </footer>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script>
     var qrBackSound = new Audio('Sounds/ui-sound-16.mp3');
@@ -106,6 +160,13 @@
         window.location.href = target;
       }, 700);
     }
+
+    function updateClock() {
+      var now = new Date();
+      document.getElementById('clock').textContent = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
 
     const qr = new QRCode(document.getElementById('qrcode'), {
       text: 'https://cbeast-dev.github.io/C.B_Photography/',
