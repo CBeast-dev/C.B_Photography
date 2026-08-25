@@ -236,6 +236,17 @@ body {
   pointer-events: none;
 }
 
+.has-booted #click-screen,
+.has-booted #boot-screen {
+  display: none;
+}
+
+.has-booted .app-shell-hidden {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
 body.is-booting {
   overflow: hidden;
 }
@@ -848,7 +859,7 @@ main > section { padding: 36px 16px; }
   left: 0;
   width: 100%;
   height: 100%;
-  background: var(--bg);
+  background: transparent;
   z-index: 9999;
   display: none;
   pointer-events: none;

@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>C.B Photography // SYSTEM BOOT</title>
   <link rel="stylesheet" href="images/style.css">
+  <script>
+    if (sessionStorage.getItem('cbBootShown') === '1') {
+      document.documentElement.classList.add('has-booted');
+    }
+  </script>
 </head>
 <body>
   <div id="click-screen" class="click-screen">
@@ -230,6 +235,7 @@
       var appShell = document.getElementById('app-shell');
       var hasBooted = sessionStorage.getItem('cbBootShown') === '1';
       var audioContext = null;
+      var bootSelectAudio = new Audio('Sounds/retro-select.mp3');
       var lastTypeTickAt = 0;
       var bootStarted = false;
 
@@ -368,6 +374,9 @@
       function beginBootSequence() {
         if (bootStarted) return;
         bootStarted = true;
+        sessionStorage.setItem('cbBootShown', '1');
+        bootSelectAudio.currentTime = 0;
+        bootSelectAudio.play().catch(function() {});
         ensureAudioContext();
         clickScreen.classList.add('click-screen-hidden');
         bootScreen.classList.remove('boot-screen-hidden');
@@ -445,7 +454,11 @@
       removeStaleGlitchOverlays();
     });
 
+    var portfolioUiSound = new Audio('Sounds/ui-sound-16.mp3');
+
     function showGlitch(url) {
+      portfolioUiSound.currentTime = 0;
+      portfolioUiSound.play().catch(function() {});
       const overlay = document.createElement('div');
       overlay.className = 'glitch-overlay';
       overlay.innerHTML = '<div class="glitch-lines"></div>';
