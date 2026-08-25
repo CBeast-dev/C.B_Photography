@@ -48,17 +48,64 @@
     .back-btn:hover { background: #00e0ff; color: #020204; }
     #qrcode { display: inline-block; }
     .url { word-break: break-all; margin-top: 18px; font-size: 13px; color: #00e0ff; letter-spacing: 0.08em; }
+    .glitch-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      pointer-events: none;
+    }
+    .glitch-lines {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 4px,
+        rgba(0,224,255,0.9) 4px,
+        rgba(0,224,255,0.9) 8px,
+        transparent 8px,
+        transparent 12px,
+        rgba(255,255,255,0.8) 12px,
+        rgba(255,255,255,0.8) 16px
+      );
+      animation: screen-tear 0.6s ease-in-out infinite;
+    }
+    @keyframes screen-tear {
+      0%, 100% { transform: translateX(0); opacity: 0.7; }
+      25% { transform: translateX(-10px); opacity: 1; }
+      50% { transform: translateX(8px); opacity: 0.8; }
+      75% { transform: translateX(-5px); opacity: 1; }
+    }
   </style>
 </head>
 <body>
   <div class="card">
-    <a href="index.html" class="back-btn">&#8592; [ BACK ]</a>
+    <a href="index.html#portfolio" class="back-btn" onclick="playQrBackSound(this, event)">&#8592; [ BACK ]</a>
     <h1>SCAN TO OPEN THE SITE</h1>
     <div id="qrcode"></div>
     <div class="url">https://cbeast-dev.github.io/C.B_Photography/</div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script>
+    var qrBackSound = new Audio('Sounds/ui-sound-16.mp3');
+    qrBackSound.volume = 1;
+
+    function playQrBackSound(link, event) {
+      event.preventDefault();
+      var target = link.href;
+      qrBackSound.currentTime = 0;
+      qrBackSound.play().catch(function() {});
+      var overlay = document.createElement('div');
+      overlay.className = 'glitch-overlay';
+      overlay.innerHTML = '<div class="glitch-lines"></div>';
+      document.body.appendChild(overlay);
+      overlay.style.display = 'block';
+      setTimeout(function() {
+        window.location.href = target;
+      }, 700);
+    }
+
     const qr = new QRCode(document.getElementById('qrcode'), {
       text: 'https://cbeast-dev.github.io/C.B_Photography/',
       width: 256,
