@@ -70,10 +70,10 @@
   <!-- Win95-style toolbar nav -->
   <nav class="toolbar">
     <div class="toolbar-inner">
-      <button class="toolbar-btn active" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">[ HOME ]</button>
-      <button class="toolbar-btn" onclick="document.getElementById('portfolio').scrollIntoView({behavior:'smooth'})">[ PORTFOLIO ]</button>
-      <button class="toolbar-btn" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">[ ABOUT ]</button>
-      <button class="toolbar-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">[ CONTACT ]</button>
+      <button class="toolbar-btn active" onclick="playNavSelectSound(); window.scrollTo({top: 0, behavior: 'smooth'})">[ HOME ]</button>
+      <button class="toolbar-btn" onclick="playNavSelectSound(); document.getElementById('portfolio').scrollIntoView({behavior:'smooth'})">[ PORTFOLIO ]</button>
+      <button class="toolbar-btn" onclick="playNavSelectSound(); document.getElementById('about').scrollIntoView({behavior:'smooth'})">[ ABOUT ]</button>
+      <button class="toolbar-btn" onclick="playNavSelectSound(); document.getElementById('contact').scrollIntoView({behavior:'smooth'})">[ CONTACT ]</button>
       <button class="toolbar-btn" onclick="window.location.href='qr.html'">[ SHARE ]</button>
       <div class="toolbar-spacer"></div>
       <span class="toolbar-clock" id="nav-clock">00:00</span>
@@ -444,6 +444,14 @@
 
       clickScreenButton.addEventListener('click', beginBootSequence, { once: true });
     })();
+
+    var navSelectAudio = new Audio('Sounds/retro-select.mp3');
+    navSelectAudio.volume = 1;
+
+    function playNavSelectSound() {
+      navSelectAudio.currentTime = 0;
+      navSelectAudio.play().catch(function() {});
+    }
 
     function removeStaleGlitchOverlays() {
       document.querySelectorAll('.glitch-overlay').forEach(function(el) {
