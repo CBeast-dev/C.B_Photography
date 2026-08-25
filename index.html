@@ -216,7 +216,7 @@
       var hasBooted = sessionStorage.getItem('cbBootShown') === '1';
       var audioContext = null;
       var bootSelectAudio = new Audio('Sounds/retro-select.mp3');
-      bootSelectAudio.volume = 1;
+      bootSelectAudio.volume = 0.25;
       var lastTypeTickAt = 0;
       var bootStarted = false;
 
@@ -426,7 +426,7 @@
     })();
 
     var navSelectAudio = new Audio('Sounds/retro-select.mp3');
-    navSelectAudio.volume = 1;
+    navSelectAudio.volume = 0.25;
 
     function playNavSelectSound() {
       navSelectAudio.currentTime = 0;
