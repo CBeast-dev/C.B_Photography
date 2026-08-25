@@ -873,6 +873,10 @@ main > section { padding: 36px 16px; }
   .ascii-art { font-size: 4px; }
   .stats-bar { gap: 12px; }
   .photo-grid { grid-template-columns: repeat(2, 1fr); }
+  .toolbar { margin: 8px 8px 0; }
+  .toolbar-inner { gap: 1px; padding: 3px; }
+  .toolbar-btn { font-size: 10px; padding: 2px 5px; }
+  .toolbar-clock { font-size: 11px; padding: 2px 5px; }
 }
 
 /* -- GLITCH EFFECT ------------------------------------ */
