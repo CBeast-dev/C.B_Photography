@@ -41,10 +41,12 @@
   <script>
     var portfolioUiSound = new Audio('Sounds/ui-sound-16.mp3');
     portfolioUiSound.volume = 1;
+    portfolioUiSound.playbackRate = 1.5;
 
     function playPortfolioBackSound(link, event) {
       event.preventDefault();
       var target = link.href;
+      portfolioUiSound.pause();
       portfolioUiSound.currentTime = 0;
       portfolioUiSound.play().catch(function() {});
       showTransition(target);
@@ -52,6 +54,7 @@
 
     function showGlitch(url) {
       removeStaleGlitchOverlays();
+      portfolioUiSound.pause();
       portfolioUiSound.currentTime = 0;
       portfolioUiSound.play().catch(function() {});
       showTransition(url);
@@ -68,8 +71,31 @@
       document.body.classList.remove('folder-opening');
     }
 
-    window.addEventListener('pageshow', resetTransitionState);
-    window.addEventListener('pagehide', resetTransitionState);
+    window.addEventListener('pageshow', function(event) {
+      resetTransitionState();
+      var navigation = performance.getEntriesByType('navigation')[0];
+      var isHistoryNavigation = event.persisted || (navigation && navigation.type === 'back_forward');
+      if (sessionStorage.getItem('cbPortfolioBackTransition') !== '1') return;
+
+      sessionStorage.removeItem('cbPortfolioBackTransition');
+      if (!isHistoryNavigation) return;
+
+      portfolioUiSound.pause();
+      portfolioUiSound.currentTime = 0;
+      portfolioUiSound.play().catch(function() {});
+      var overlay = document.createElement('div');
+      overlay.className = 'glitch-overlay';
+      overlay.innerHTML = '<div class="glitch-lines"></div>';
+      document.body.appendChild(overlay);
+      overlay.style.display = 'block';
+      setTimeout(function() {
+        overlay.remove();
+      }, 360);
+    });
+    window.addEventListener('pagehide', function() {
+      sessionStorage.setItem('cbPortfolioBackTransition', '1');
+      resetTransitionState();
+    });
     document.addEventListener('visibilitychange', function() {
       if (document.visibilityState === 'visible') resetTransitionState();
     });
@@ -83,7 +109,7 @@
       overlay.style.display = 'block';
       setTimeout(function() {
         window.location.href = url;
-      }, 700);
+      }, 220);
     }
 
     function updateClock() {

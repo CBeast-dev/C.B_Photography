@@ -381,6 +381,22 @@ body.is-booting {
   transition: none;
 }
 
+.portfolio-nav-btn {
+  font-size: 16px;
+  color: var(--blue-amber);
+  text-shadow: 0 0 8px rgba(15,68,170,0.4);
+  animation: portfolio-nav-flicker 3s ease-in-out infinite;
+}
+
+@keyframes portfolio-nav-flicker {
+  0%, 82%, 88%, 94%, 100% { opacity: 1; }
+  85%, 91% { opacity: 0.45; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-nav-btn { animation: none; }
+}
+
 .toolbar-btn:hover   { background: #101020; color: var(--blue); }
 .toolbar-btn.active  {
   background: var(--win-hdr);
@@ -876,6 +892,7 @@ main > section { padding: 36px 16px; }
   .toolbar { margin: 8px 8px 0; }
   .toolbar-inner { gap: 1px; padding: 3px; }
   .toolbar-btn { font-size: 10px; padding: 2px 5px; }
+  .portfolio-nav-btn { font-size: 12px; }
   .toolbar-clock { font-size: 11px; padding: 2px 5px; }
 }
 
@@ -903,13 +920,21 @@ main > section { padding: 36px 16px; }
     transparent 0px,
     transparent 4px,
     rgba(0,224,255,0.9) 4px,
-    rgba(0,224,255,0.9) 8px,
-    transparent 8px,
-    transparent 12px,
-    rgba(255,255,255,0.8) 12px,
-    rgba(255,255,255,0.8) 16px
+    rgba(0,224,255,0.9) 7px,
+    transparent 7px,
+    transparent 11px,
+    rgba(255,255,255,0.8) 11px,
+    rgba(255,255,255,0.8) 15px
   );
-  animation: screen-tear 0.6s ease-in-out infinite;
+  animation: screen-tear 0.16s ease-in-out 2;
+}
+
+@keyframes screen-tear {
+  0%, 100% { transform: translate(0, 0); opacity: 0; }
+  15% { opacity: 0.9; }
+  35% { transform: translate(-6px, 0); }
+  55% { transform: translate(6px, 2px); opacity: 0.75; }
+  75% { transform: translate(-3px, -1px); opacity: 0.4; }
 }
 
   .lightbox {
@@ -940,4 +965,3 @@ main > section { padding: 36px 16px; }
     transform: scale(1.03);
     filter: brightness(1.04);
   }
-

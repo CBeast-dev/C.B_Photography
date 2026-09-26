@@ -171,6 +171,7 @@
   <script>
     var portfolioUiSound = new Audio('Sounds/ui-sound-16.mp3');
     portfolioUiSound.volume = 1;
+    portfolioUiSound.playbackRate = 1.5;
     function removeStaleGlitchOverlays() {
       document.querySelectorAll('.glitch-overlay').forEach(function(el) {
         el.remove();
@@ -191,7 +192,9 @@
     function playPortfolioBackSound(link, event) {
       event.preventDefault();
       var target = link.href;
+      sessionStorage.removeItem('cbPortfolioBackTransition');
       removeStaleGlitchOverlays();
+      portfolioUiSound.pause();
       portfolioUiSound.currentTime = 0;
       portfolioUiSound.play().catch(function() {});
       showTransition(target);
@@ -206,8 +209,8 @@
       overlay.style.display = 'block';
       setTimeout(function() {
         window.location.href = url;
-      }, 700);
-      setTimeout(removeStaleGlitchOverlays, 1400);
+      }, 220);
+      setTimeout(removeStaleGlitchOverlays, 360);
     }
 
     function updateClock() {

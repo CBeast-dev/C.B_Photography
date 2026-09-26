@@ -38,7 +38,7 @@
   <div id="boot-screen" class="boot-screen boot-screen-hidden">
     <header class="crt-header boot-header">
       <div class="bios-bar">
-        <span>CB-PHOTO BIOS v2.6 // COPYRIGHT C.B PHOTOGRAPHY 1996-2026</span>
+        <span>CB-PHOTO BIOS v2.6 // COPYRIGHT C.B PHOTOGRAPHY 2000-2026</span>
         <span class="led-group">
           <span class="led led-green"></span>
           <span class="led led-amber"></span>
@@ -72,7 +72,7 @@
     <div class="toolbar-inner">
       <button class="toolbar-btn active" onclick="playNavSelectSound(); window.scrollTo({top: 0, behavior: 'smooth'})">[ HOME ]</button>
       <button class="toolbar-btn" onclick="playNavSelectSound(); document.getElementById('about').scrollIntoView({behavior:'smooth'})">[ ABOUT ]</button>
-      <button class="toolbar-btn" onclick="showGlitch('portfolio.html')">[ PORTFOLIO ]</button>
+      <button class="toolbar-btn portfolio-nav-btn" onclick="showGlitch('portfolio.html')">[ PORTFOLIO ]</button>
       <button class="toolbar-btn" onclick="playNavSelectSound(); document.getElementById('contact').scrollIntoView({behavior:'smooth'})">[ CONTACT ]</button>
       <button class="toolbar-btn" onclick="showGlitch('qr.html')">[ SHARE ]</button>
       <div class="toolbar-spacer"></div>
@@ -426,9 +426,11 @@
     })();
 
     var navSelectAudio = new Audio('Sounds/retro-select.mp3');
-    navSelectAudio.volume = 0.25;
+    navSelectAudio.volume = 0.18;
+    navSelectAudio.playbackRate = 1.35;
 
     function playNavSelectSound() {
+      navSelectAudio.pause();
       navSelectAudio.currentTime = 0;
       navSelectAudio.play().catch(function() {});
     }
@@ -457,7 +459,7 @@
       overlay.style.display = 'block';
       setTimeout(function() {
         window.location.href = url;
-      }, 700);
+      }, 260);
     }
   </script>
 </body>

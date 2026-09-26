@@ -25,7 +25,7 @@
       box-sizing: border-box;
       background: rgba(2, 4, 9, 0.95);
       border: 2px solid;
-      border-color: #0d0d26;
+      border-color: #16163a #030308 #030308 #16163a;
       box-shadow: 2px 2px 0 #000;
       padding: 24px;
       max-width: 420px;
@@ -37,8 +37,7 @@
       top: 24px;
       left: 24px;
       padding: 6px 16px;
-      border: 2px solid;
-      border-color: #0d0d26;
+      border: 2px solid #00e0ff;
       color: #a8f4ff;
       font-family: 'Share Tech Mono', monospace;
       font-size: 13px;
@@ -86,8 +85,8 @@
       left: 0;
       right: 0;
       height: 46px;
-      background: #c0c0c0;
-      border: 2px solid #0d0d26;
+      background: #0b0b15;
+      border-top: 2px solid #16163a;
       box-shadow: 0 -2px 0 #030308;
       display: flex;
       align-items: center;
@@ -97,18 +96,20 @@
       box-sizing: border-box;
     }
     .start-btn {
-      background: #c0c0c0;
+      background: #0b0b15;
       border: 2px solid;
-      border-color: #0d0d26;
+      border-color: #16163a #030308 #030308 #16163a;
       font: bold 13px 'Share Tech Mono', monospace;
       padding: 3px 12px;
       color: #00e0ff;
       letter-spacing: 0.05em;
     }
+    .start-btn:active { border-color: #030308 #16163a #16163a #030308; }
     .taskbar-items { flex: 1; display: flex; gap: 4px; overflow: hidden; }
     .taskbar-item {
       background: #06060d;
-      border: 2px inset #0d0d26;
+      border: 2px solid;
+      border-color: #16163a #030308 #030308 #16163a;
       font: 12px 'Share Tech Mono', monospace;
       padding: 2px 10px;
       color: #a8f4ff;
